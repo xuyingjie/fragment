@@ -1,0 +1,327 @@
+@import "normalize";
+@import "variables";
+// @import "icons";
+@import "base";
+
+// @import "tasks.less";
+
+
+//
+// 分解 app.less > tasks.less + navbar.less + editor.less + ... , 只剩下 @import
+// 每个组件是独立 block，只依赖normalize.less + base.less
+// rm font-awesome.css ? https://github.com/saeedalipoor/icono
+// 参考 Bootstrap 源代码: https://github.com/twbs/bootstrap
+//
+//
+
+
+
+/**
+ * Well-knit sections for articles
+ */
+article {
+  line-height: 1.7;
+  margin-top: -1.3em;
+}
+article {
+  -moz-hyphens: auto;
+  -ms-hyphens: auto;
+  -webkit-hyphens: auto;
+  hyphens: auto;
+}
+article p,
+article li {
+  text-align: justify;
+  text-justify: inter-ideograph;
+}
+article h1 + blockquote,
+article h1 + p,
+article h1 + ol,
+article h1 + ul,
+article h1 + h6,
+article h1 + section > h6:first-child,
+article h1 + section > p:first-child,
+article h1 + section > ol:first-child,
+article h1 + section > ul:first-child,
+article h1 + section > blockquote:first-child,
+article h2 + blockquote,
+article h2 + p,
+article h2 + ol,
+article h2 + ul,
+article h2 + h6,
+article h2 + section > h6:first-child,
+article h2 + section > p:first-child,
+article h2 + section > ol:first-child,
+article h2 + section > ul:first-child,
+article h2 + section > blockquote:first-child,
+article h3 + blockquote,
+article h3 + p,
+article h3 + ol,
+article h3 + ul,
+article h3 + h6,
+article h3 + section > h6:first-child,
+article h3 + section > p:first-child,
+article h3 + section > ol:first-child,
+article h3 + section > ul:first-child,
+article h3 + section > blockquote:first-child,
+article h4 + blockquote,
+article h4 + p,
+article h4 + ol,
+article h4 + ul,
+article h4 + h6,
+article h4 + section > h6:first-child,
+article h4 + section > p:first-child,
+article h4 + section > ol:first-child,
+article h4 + section > ul:first-child,
+article h4 + section > blockquote:first-child,
+article h5 + blockquote,
+article h5 + p,
+article h5 + ol,
+article h5 + ul,
+article h5 + h6,
+article h5 + section > h6:first-child,
+article h5 + section > p:first-child,
+article h5 + section > ol:first-child,
+article h5 + section > ul:first-child,
+article h5 + section > blockquote:first-child,
+article h6 + blockquote,
+article h6 + p,
+article h6 + ol,
+article h6 + ul,
+article h6 + h6,
+article h6 + section > h6:first-child,
+article h6 + section > p:first-child,
+article h6 + section > ol:first-child,
+article h6 + section > ul:first-child,
+article h6 + section > blockquote:first-child,
+article h1 + h5,
+article h1 + section > h5:first-child,
+article h2 + h5,
+article h2 + section > h5:first-child,
+article h3 + h5,
+article h3 + section > h5:first-child,
+article h4 + h5,
+article h4 + section > h5:first-child,
+article h5 + h5,
+article h5 + section > h5:first-child,
+article h1 + h4,
+article h1 + section > h4:first-child,
+article h2 + h4,
+article h2 + section > h4:first-child,
+article h3 + h4,
+article h3 + section > h4:first-child,
+article h4 + h4,
+article h4 + section > h4:first-child,
+article h1 + h3,
+article h1 + section > h3:first-child,
+article h2 + h3,
+article h2 + section > h3:first-child,
+article h3 + h3,
+article h3 + section > h3:first-child,
+article h1 + h2,
+article h1 + section > h2:first-child,
+article h2 + h2,
+article h2 + section > h2:first-child {
+  margin-top: -1em;
+}
+
+p.poem-like,
+.poem-like p {
+  margin-left: 2em;
+}
+@media only screen and (max-width: 480px) {
+  p.poem-like,
+  .poem-like p {
+    margin-left: 1em;
+  }
+}
+
+article blockquote {
+  margin-right: 0;
+}
+@media only screen and (max-width: 480px) {
+  article blockquote {
+    margin-left: 1em;
+  }
+}
+figure blockquote {
+  margin: 0;
+}
+blockquote blockquote {
+  margin-left: 1em;
+  margin-right: 1em;
+}
+article blockquote blockquote {
+  margin-right: 0;
+}
+
+@media only screen and (max-width: 480px) {
+  blockquote,
+  figure {
+    margin-left: 1em;
+    margin-right: 1em;
+  }
+}
+
+
+
+
+.left {
+  float: left;
+}
+
+.right {
+  float: right;
+}
+
+.wrap {
+  // max-width: 1080px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+@media screen and (max-width: 800px) {
+  .wrap {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
+
+/** Navbar */
+.nav-main {
+  background: @main-color;
+  color: @font-color-o;
+  position: fixed;
+  top: 0px;
+  height: @nav-h;
+  width: 100%;
+  z-index: 100;
+}
+
+.nav-site {
+  color: @font-color-o;
+  padding: 0px 8px;
+  line-height: @nav-h;
+  height: @nav-h;
+  float: left;
+}
+
+a.nav-site:hover, a.nav-site:focus {
+  color: @font-color-o;
+  text-decoration: none;
+}
+
+.nav-title {
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 20px;
+  margin-left: -8px;
+}
+
+.nav-right {
+  margin-right: -8px;
+}
+
+
+/** Form */
+.form-group {
+  margin-bottom: 15px;
+}
+.form-control {
+  display: block;
+  width: 100%;
+  height: 34px;
+  padding: 6px 12px 6px 2px;
+
+  background-color: @bg-color;
+  border-bottom: 2px solid #E0E0E0;
+  outline: none;
+}
+textarea.form-control {
+  height: auto;
+}
+
+
+/** Button */
+.btn {
+  display: inline-block;
+  cursor: pointer;
+
+  color: @font-color;
+  line-height: 32px;
+  height: 34px;
+  vertical-align: middle;
+  padding: 0px 12px;
+  background-color: @bg-color;
+
+  border: 1px solid #CCC;
+}
+.btn:hover, .btn:focus, .btn:active {
+  color: @font-color;
+  background-color: #E6E6E6;
+  text-decoration: none;
+  outline: none;
+}
+
+
+a.item {
+  color: @font-color;
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.75) none repeat scroll;
+}
+a.item:hover, a.item:focus {
+  background-color: rgba(230, 230, 230, 0.75);
+}
+.item {
+  position: relative;
+  display: block;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 0px 12px;
+  line-height: 36px;
+  height: 38px;
+  background-color: #FFF;
+  border: 1px solid #E6E6E6;
+}
+
+.progress-bar {
+  background-color: @main-color;
+  width: 0%;
+  height: 38px;
+  margin-top: -38px;
+  margin-bottom: -1px;
+  padding: 0px;
+  z-index: -1;
+}
+
+.attachment {
+  width: 390px;
+  margin-bottom: 8px;
+}
+
+.tasks {
+  // font-family: @code-fonts;
+  line-height: 1.7;
+  padding-left: 2px;
+}
+
+#file-info {
+  line-height: 32px;
+  height: 34px;
+  border-color: #CCC;
+}
+#upload-progress {
+  height: 34px;
+  margin-top: -34px;
+}
+
+#success-info {
+  position: fixed;
+  right: 0px;
+  top: @nav-h;
+  padding: 2px 8px;
+  color: @font-color-o;
+  background-color: @main-color;
+}

@@ -1,0 +1,111 @@
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+/*html *{
+	color-profile:sRGB;
+	rendering-intent:auto
+}*/
+
+
+* {
+  border: none;
+  // margin: 0;
+  // padding: 0;
+}
+
+html {
+  line-height: 1.3;
+  -webkit-font-smoothing: subpixel-antialiased;
+}
+
+body {
+  font-family: @base-fonts;
+  font-size: @base-size;
+  color: @font-color;
+  background-color: @bg-color;
+  padding-top: @nav-h + 20px;
+  padding-bottom: 20px;
+}
+
+h1,h2,h3 {
+  font-family: FZKeBenFangSongS-R-GB;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.54);
+}
+
+ul, ol {
+  padding-left: 2em;
+}
+
+figure,
+blockquote {
+  margin-left: 2em;
+  margin-right: 2em;
+}
+
+a {
+  // color: #6E4FA1;
+  color: #008CBA;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:hover, a:focus {
+  color: @main-color;
+  text-decoration: underline;
+}
+
+a:focus {
+  outline: none;
+}
+
+h1 a {
+  color: rgba(0, 0, 0, 0.54);
+}
+h1 a:hover, h1 a:focus {
+  color: rgba(0, 0, 0, 0.54);
+  text-decoration: none;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: normal;
+}
+code {
+  font-family: @code-fonts;
+  border: 1px solid #DFDFDF;
+  // background: #F7F7F9 none repeat scroll 0% 0%;
+  background: #FAFAFA none repeat scroll 0% 0%;
+  padding: 0px 3px;
+}
+pre > code {
+  font-family: @base-fonts;
+  border: 0;
+  background: none;
+  padding: 0;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+hr {
+  border: 1px solid #EEE;
+}
+
+table {
+  max-width: 100%;
+}
+table > thead > tr > th, table > tbody > tr > th, table > tfoot > tr > th, table > thead > tr > td, table > tbody > tr > td, table > tfoot > tr > td {
+  border: 1px solid #DDD;
+  vertical-align: top;
+  line-height: 1.42857;
+  padding: 0.5em;
+}
+th {
+  text-align: left;
+}
