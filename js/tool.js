@@ -66,10 +66,9 @@ function upload(opts) {
 
   var policyJson = {
     'expiration': (new Date(Date.now() + 3600000)).toJSON(),
-    'conditions': [
-      {
-        'bucket': bucket
-      },
+    'conditions': [{
+      'bucket': bucket
+    },
       ['eq', '$key', opts.key]
     ]
   };
@@ -185,4 +184,80 @@ function strToArrayBuffer(str) {
     bufView[i] = str.charCodeAt(i);
   }
   return buf;
+}
+
+
+//
+// WebCryptoAPI
+// or use Promise
+//
+function importKey(str, callback) {
+  'use strict';
+  window.crypto.subtle.importKey(
+    "raw", //can be "jwk" or "raw"
+    strToArrayBuffer(str), { //this is the algorithm options
+      name: "AES-GCM",
+    },
+    false, //whether the key is extractable (i.e. can be used in exportKey)
+    ["encrypt", "decrypt"] //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
+  )
+    .then(key => {
+      //returns the symmetric key
+      callback(key);
+    })
+    .catch(err => {
+      console.error(err);
+    });
+}
+
+function encrypt(opt) {
+  'use strict';
+  importKey(opt.passwd, key => {
+    window.crypto.subtle.encrypt({
+      name: "AES-GCM",
+
+      //Don't re-use initialization vectors!
+      //Always generate a new iv every time your encrypt!
+      //Recommended to use 12 bytes length
+      iv: strToArrayBuffer(opt.iv),
+
+      //Additional authentication data (optional)
+      // additionalData: ArrayBuffer,
+
+      //Tag length (optional)
+      tagLength: 128, //can be 32, 64, 96, 104, 112, 120 or 128 (default)
+    },
+      key, //from generateKey or importKey above
+      opt.data //ArrayBuffer of data you want to encrypt
+    )
+      .then(encrypted => {
+        //returns an ArrayBuffer containing the encrypted data
+        opt.callback(encrypted);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  });
+}
+
+function decrypt(opt) {
+  'use strict';
+  importKey(opt.passwd, key => {
+    window.crypto.subtle.decrypt({
+      name: "AES-GCM",
+      iv: strToArrayBuffer(opt.iv), //The initialization vector you used to encrypt
+      // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
+      tagLength: 128, //The tagLength you used to encrypt (if any)
+    },
+      key, //from generateKey or importKey above
+      opt.data //ArrayBuffer of the data
+    )
+      .then(decrypted => {
+        //returns an ArrayBuffer containing the decrypted data
+        opt.callback(decrypted);
+      })
+      .catch(err => {
+        console.error(err);
+      });
+  });
 }
