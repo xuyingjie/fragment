@@ -24,18 +24,7 @@ class InputFile extends React.Component {
       var j = i + 1;
       this.setState({i: j});
 
-      var name = files[i].name;
-      if (name.length > 21) {
-        if (name.match(/[\u4e00-\u9fa5]/)) {
-          name = name.substring(0, 21) + '...';
-        } else {
-          if (name.length > 40) {
-            name = name.substring(0, 40) + '...';
-          }
-        }
-      }
-
-      document.getElementById('file-info').innerHTML = name;
+      document.getElementById('file-info').innerHTML = files[i].name;
       this.readAndUpload(files[i]);
 
     } else {

@@ -117,22 +117,11 @@ class File extends React.Component {
   render() {
     var x = this.props.data;
 
-    var name = x.name;
-    if (name.length > 14) {
-      if (name.match(/[\u4e00-\u9fa5]/)) {
-        name = name.substring(0, 14) + '...';
-      } else {
-        if (name.length > 27) {
-          name = name.substring(0, 27) + '...';
-        }
-      }
-    }
-
     return (
       <div>
         <a className="item" title={x.name} data-key={x.key} draggable='true' onDragStart={this.props.dragStart} onClick={this.props.download.bind(this, x)}>
           <i className={fileTypeIcons(x.type) + " fa-fw fa-lg"}></i>&nbsp;
-          {name}
+          {x.name}
           <span className="right">{x.size}</span>
         </a>
         <div id={x.key} className="item progress-bar"></div>
