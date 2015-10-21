@@ -29,13 +29,13 @@ class Tasks extends React.Component {
 
   handleEdit(t) {
     this.setState({editID: t.id});
-    this.refs.content.getDOMNode().value = t.content;
+    this.refs.content.value = t.content;
   }
 
   save(e) {
     e.preventDefault();
 
-    if (this.refs.content.getDOMNode().value !== ''){
+    if (this.refs.content.value !== ''){
 
       var tasks = this.state.tasks;
 
@@ -51,7 +51,7 @@ class Tasks extends React.Component {
 
       var t = {
         id: timeDiff(),
-        content: this.refs.content.getDOMNode().value
+        content: this.refs.content.value
       };
       tasks.push(t);
       // console.log(this.state.tasks);
@@ -63,7 +63,7 @@ class Tasks extends React.Component {
         success: function() {
 
           this.setState({query: tasks});
-          this.refs.content.getDOMNode().value = '';
+          this.refs.content.value = '';
         }.bind(this)
       });
 

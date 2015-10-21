@@ -3,9 +3,9 @@ class SignIn extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    var name = this.refs.name.getDOMNode().value;
-    var passwd = this.refs.passwd.getDOMNode().value;
-    var iv = this.refs.iv.getDOMNode().value;
+    var name = this.refs.name.value;
+    var passwd = this.refs.passwd.value;
+    var iv = this.refs.iv.value;
 
     get({
       key: name,
@@ -16,9 +16,9 @@ class SignIn extends React.Component {
         localStorage.user = JSON.stringify(data.user);
 
         this.props.login();
-        this.refs.name.getDOMNode().value = '';
-        this.refs.passwd.getDOMNode().value = '';
-        this.refs.iv.getDOMNode().value = '';
+        this.refs.name.value = '';
+        this.refs.passwd.value = '';
+        this.refs.iv.value = '';
       }.bind(this)
     });
   }

@@ -14,12 +14,12 @@ class SignUp extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    var name = this.refs.name.getDOMNode().value;
-    var secret = this.refs.secret.getDOMNode().value;
-    var passwd = this.refs.passwd.getDOMNode().value;
-    var iv = this.refs.iv.getDOMNode().value;
-    var AK = this.refs.AK.getDOMNode().value;
-    var SK = this.refs.SK.getDOMNode().value;
+    var name = this.refs.name.value;
+    var secret = this.refs.secret.value;
+    var passwd = this.refs.passwd.value;
+    var iv = this.refs.iv.value;
+    var AK = this.refs.AK.value;
+    var SK = this.refs.SK.value;
 
     var user = { AK, SK, passwd, iv };
 
