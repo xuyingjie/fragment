@@ -49,7 +49,12 @@ function get(opts) {
     };
   }
 
-  xhr.open('GET', 'http://' + bucket + '.oss-cn-beijing.aliyuncs.com/' + opts.key, true);
+  // var user = JSON.parse(localStorage.user);
+  // var StringToSign = `GET\n\n\n${(new Date()).toUTCString()}\n${opts.key}`;
+  // var signature = b64_hmac_sha1(user.SK, StringToSign);
+  // var s = `?AWSAccessKeyId=${user.AK}&Expires=${Date.now() + 3600000}&Signature=${signature}`;
+
+  xhr.open('GET', `http://${bucket}.obs.cn-north-1.myhwclouds.com/${opts.key}`, true);
 
   // in firefox xhr.responseType must behind xhr.open
   xhr.responseType = 'arraybuffer';
@@ -82,11 +87,20 @@ function upload(opts) {
       var AK = user.AK;
       var SK = user.SK;
 
+      var cache;
+      if (opts.key.match('u/') !== null) {
+        cache = 'public,max-age=8640000';
+      } else {
+        cache = 'no-cache';
+      }
+
       var policyJson = {
         'expiration': (new Date(Date.now() + 3600000)).toJSON(),
-        'conditions': [{
-          'bucket': bucket
-        },
+        'conditions': [
+          {'bucket': bucket},
+          {'acl': 'public-read'},
+          {'Content-Type': 'application/octet-stream'},
+          {'Cache-Control': cache},
           ['eq', '$key', opts.key]
         ]
       };
@@ -94,17 +108,13 @@ function upload(opts) {
       var signature = b64_hmac_sha1(SK, policy);
 
       var formData = new FormData();
-      formData.append('OSSAccessKeyId', AK);
+      formData.append('key', opts.key);
+      formData.append('acl', "public-read");
+      formData.append('Content-Type', 'application/octet-stream');
+      formData.append('Cache-Control', cache);
+      formData.append('AWSAccessKeyId', AK);
       formData.append('policy', policy);
       formData.append('signature', signature);
-
-      if (opts.key.match('u/') !== null) {
-        formData.append('Cache-Control', 'public,max-age=8640000');
-      } else {
-        formData.append('Cache-Control', 'no-cache');
-      }
-
-      formData.append('key', opts.key);
 
       // 文件或文本内容，必须是表单中的最后一个域。
       formData.append('file', blob);
@@ -131,7 +141,7 @@ function upload(opts) {
         }
       };
 
-      xhr.open('POST', 'http://' + bucket + '.oss-cn-beijing.aliyuncs.com/', true);
+      xhr.open('POST', `http://${bucket}.obs.cn-north-1.myhwclouds.com/`, true);
       xhr.send(formData);
     }
   });
