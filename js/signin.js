@@ -5,18 +5,20 @@ class SignIn extends React.Component {
 
     var name = this.refs.name.getDOMNode().value;
     var passwd = this.refs.passwd.getDOMNode().value;
+    var iv = this.refs.iv.getDOMNode().value;
 
     get({
       key: name,
-      token: passwd,
+      passwd,
+      iv,
       success: function(data){
 
-        localStorage.token = data.user.token;
         localStorage.user = JSON.stringify(data.user);
 
         this.props.login();
         this.refs.name.getDOMNode().value = '';
         this.refs.passwd.getDOMNode().value = '';
+        this.refs.iv.getDOMNode().value = '';
       }.bind(this)
     });
   }
@@ -30,7 +32,11 @@ class SignIn extends React.Component {
         </div>
         <div className="form-group">
           <label htmlFor="inputPassword3">Password</label>
-          <input type="password" className="form-control" id="inputPassword3" ref="passwd"/>
+          <input type="text" className="form-control" id="inputPassword3" ref="passwd"/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="iv">iv</label>
+          <input type="text" className="form-control" id="iv" ref="iv"/>
         </div>
         <button type="submit" className="btn">Sign in</button>
       </form>

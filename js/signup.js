@@ -15,20 +15,20 @@ class SignUp extends React.Component {
     e.preventDefault();
 
     var name = this.refs.name.getDOMNode().value;
+    var secret = this.refs.secret.getDOMNode().value;
     var passwd = this.refs.passwd.getDOMNode().value;
-    var token = this.refs.token.getDOMNode().value;
+    var iv = this.refs.iv.getDOMNode().value;
     var AK = this.refs.AK.getDOMNode().value;
     var SK = this.refs.SK.getDOMNode().value;
 
-    var user = { AK, SK, token };
+    var user = { AK, SK, passwd, iv };
 
-    localStorage.token = token;
     localStorage.user = JSON.stringify(user);
 
     upload({
       key: name,
       data: JSON.stringify({user: user}),
-      token: passwd,
+      passwd: secret,
       success: function() {
         // console.log('Success!!!');
         this.successInfo('Success!!!');
@@ -45,12 +45,16 @@ class SignUp extends React.Component {
           <input type="text" className="form-control" id="inputName3" ref="name"/>
         </div>
         <div className="form-group">
-          <label htmlFor="inputPassword3">Password</label>
-          <input type="text" className="form-control" id="inputPassword3" ref="passwd"/>
+          <label htmlFor="secret">Password</label>
+          <input type="text" className="form-control" id="secret" ref="secret"/>
         </div>
         <div className="form-group">
-          <label htmlFor="token">Token</label>
-          <input type="text" className="form-control" id="token" ref="token"/>
+          <label htmlFor="passwd">Random Password</label>
+          <input type="text" className="form-control" id="passwd" ref="passwd"/>
+        </div>
+        <div className="form-group">
+          <label htmlFor="iv">iv</label>
+          <input type="text" className="form-control" id="iv" ref="iv"/>
         </div>
         <div className="form-group">
           <label htmlFor="AK">AK</label>

@@ -10,15 +10,30 @@ function get(opts) {
     if (xhr.readyState === 4) {
       if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 
-        var token = opts.token ? opts.token : localStorage.token;
-        var uint8Arr = asmCrypto.AES_CBC.decrypt(xhr.response, token);
-        // console.log('AES.decrypt');
-        if (opts.arrayBuffer) {
-          opts.success(uint8Arr.buffer);
+        var passwd, iv;
+        if (opts.passwd) {
+          passwd = opts.passwd;
+          iv = opts.iv;
         } else {
-          var str = arrayBufferToStr(uint8Arr.buffer);
-          opts.success(JSON.parse(str));
+          var user = JSON.parse(localStorage.user);
+          passwd = user.passwd;
+          iv = user.iv;
         }
+
+        decrypt({
+          passwd,
+          iv,
+          data: xhr.response,
+          callback: decrypted => {
+            if (opts.arrayBuffer) {
+              opts.success(decrypted);
+            } else {
+              var str = arrayBufferToStr(decrypted);
+              opts.success(JSON.parse(str));
+            }
+          }
+        });
+
       }
     }
   };
@@ -45,76 +60,82 @@ function get(opts) {
 function upload(opts) {
   'use strict';
 
-  var token = opts.token ? opts.token : localStorage.token;
+  var user = JSON.parse(localStorage.user);
+  var passwd = opts.passwd ? opts.passwd : user.passwd;
+  var iv = user.iv;
 
   if (!opts.arrayBuffer) {
     opts.data = strToArrayBuffer(opts.data);
   }
 
-  // opts.data can be ArrayBuffer or Uint8Array. strings will garbled characters.
-  var uint8Arr = asmCrypto.AES_CBC.encrypt(opts.data, token);
-  // console.log('AES.encrypt');
+  encrypt({
+    passwd,
+    iv,
+    data: opts.data,
+    callback: encrypted => {
 
-  // new Blob([encList.buffer]) fast than new Blob([encList]) type不是必需的
-  var blob = new Blob([uint8Arr.buffer], {
-    type: 'application/octet-stream'
+      // new Blob([encList.buffer]) fast than new Blob([encList]) type不是必需的
+      var blob = new Blob([encrypted], {
+        type: 'application/octet-stream'
+      });
+
+      var AK = user.AK;
+      var SK = user.SK;
+
+      var policyJson = {
+        'expiration': (new Date(Date.now() + 3600000)).toJSON(),
+        'conditions': [{
+          'bucket': bucket
+        },
+          ['eq', '$key', opts.key]
+        ]
+      };
+      var policy = btoa(JSON.stringify(policyJson));
+      var signature = b64_hmac_sha1(SK, policy);
+
+      var formData = new FormData();
+      formData.append('OSSAccessKeyId', AK);
+      formData.append('policy', policy);
+      formData.append('signature', signature);
+
+      if (opts.key.match('u/') !== null) {
+        formData.append('Cache-Control', 'public,max-age=8640000');
+      } else {
+        formData.append('Cache-Control', 'no-cache');
+      }
+
+      formData.append('key', opts.key);
+
+      // 文件或文本内容，必须是表单中的最后一个域。
+      formData.append('file', blob);
+
+      var xhr = new XMLHttpRequest();
+
+      if (opts.progress) {
+        xhr.upload.onprogress = function(e) {
+          if (e.lengthComputable) {
+            if (e.loaded === e.total) {
+              opts.progress.style.width = '0%';
+            } else {
+              opts.progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
+            }
+          }
+        };
+      }
+
+      xhr.onload = function() {
+        if (xhr.readyState === 4) {
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
+            opts.success();
+          }
+        }
+      };
+
+      xhr.open('POST', 'http://' + bucket + '.oss-cn-beijing.aliyuncs.com/', true);
+      xhr.send(formData);
+    }
   });
 
-  var user = JSON.parse(localStorage.user);
-  var AK = user.AK;
-  var SK = user.SK;
-
-  var policyJson = {
-    'expiration': (new Date(Date.now() + 3600000)).toJSON(),
-    'conditions': [{
-      'bucket': bucket
-    },
-      ['eq', '$key', opts.key]
-    ]
-  };
-  var policy = btoa(JSON.stringify(policyJson));
-  var signature = asmCrypto.HMAC_SHA1.base64(policy, SK);
-
-  var formData = new FormData();
-  formData.append('OSSAccessKeyId', AK);
-  formData.append('policy', policy);
-  formData.append('signature', signature);
-
-  if (opts.key.match('u/') !== null) {
-    formData.append('Cache-Control', 'public,max-age=8640000');
-  } else {
-    formData.append('Cache-Control', 'no-cache');
-  }
-
-  formData.append('key', opts.key);
-
-  // 文件或文本内容，必须是表单中的最后一个域。
-  formData.append('file', blob);
-
-  var xhr = new XMLHttpRequest();
-
-  if (opts.progress) {
-    xhr.upload.onprogress = function(e) {
-      if (e.lengthComputable) {
-        if (e.loaded === e.total) {
-          opts.progress.style.width = '0%';
-        } else {
-          opts.progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
-        }
-      }
-    };
-  }
-
-  xhr.onload = function() {
-    if (xhr.readyState === 4) {
-      if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-        opts.success();
-      }
-    }
-  };
-
-  xhr.open('POST', 'http://' + bucket + '.oss-cn-beijing.aliyuncs.com/', true);
-  xhr.send(formData);
 }
 
 function insertText(obj, str) {

@@ -90,7 +90,6 @@ class Root extends React.Component {
   }
 
   handleLogout() {
-    localStorage.removeItem('token');
     localStorage.removeItem('user');
     this.setState({auth: false});
     this.setState({contents: []});
@@ -98,7 +97,7 @@ class Root extends React.Component {
   }
 
   auth() {
-    if (localStorage.token) {
+    if (localStorage.user) {
       this.setState({auth: true});
       this.cache();
     } else {
