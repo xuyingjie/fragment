@@ -1,4 +1,7 @@
-class Editor extends React.Component {
+import {InputFile} from './inputFile';
+import {get, insertText} from './tool';
+
+export class Editor extends React.Component {
 
   constructor(props) {
     super(props);

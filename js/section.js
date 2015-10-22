@@ -1,4 +1,7 @@
-class Section extends React.Component {
+import {Attachment} from './attachment';
+import {get} from './tool';
+
+export class Section extends React.Component {
 
   constructor(props) {
     super(props);

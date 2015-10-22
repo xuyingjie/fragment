@@ -1,4 +1,6 @@
-class SignUp extends React.Component {
+import {upload} from './tool';
+
+export class SignUp extends React.Component {
 
   successInfo(info) {
     var div = document.createElement('div');

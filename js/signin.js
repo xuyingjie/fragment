@@ -1,4 +1,6 @@
-class SignIn extends React.Component {
+import {get} from './tool';
+
+export class SignIn extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();

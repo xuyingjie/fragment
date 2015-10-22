@@ -1,4 +1,7 @@
-class Tasks extends React.Component {
+import {get, upload} from './tool';
+import * as crypto from './lib/crypto';
+
+export class Tasks extends React.Component {
 
   constructor(props) {
     super(props);
@@ -50,7 +53,7 @@ class Tasks extends React.Component {
       }
 
       var t = {
-        id: timeDiff(),
+        id: crypto.timeDiff(),
         content: this.refs.content.value
       };
       tasks.push(t);

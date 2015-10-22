@@ -1,4 +1,6 @@
-class Attachment extends React.Component {
+import {fileTypeIcons} from './tool';
+
+export class Attachment extends React.Component {
 
   constructor(props) {
     super(props);

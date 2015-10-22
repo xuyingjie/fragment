@@ -1,3 +1,14 @@
+import {Section} from './section';
+import {Editor} from './editor';
+import {SignIn} from './signin';
+import {SignUp} from './signup';
+import {Tasks} from './tasks';
+import {Contents} from './contents';
+import {Navbar} from './navbar';
+
+import {get, upload} from './tool';
+import * as crypto from './lib/crypto';
+
 class Root extends React.Component {
 
   constructor(props) {
@@ -30,7 +41,7 @@ class Root extends React.Component {
       };
 
       if (t.id === '') {
-        t.id = timeDiff();
+        t.id = crypto.timeDiff();
         data.id = t.id;
         contents.push(t);
       } else {
@@ -143,4 +154,4 @@ class Root extends React.Component {
   }
 }
 
-// React.render(<Root />, document.getElementById('wrapper'));
+ReactDOM.render(<Root />, document.getElementById('wrapper'));

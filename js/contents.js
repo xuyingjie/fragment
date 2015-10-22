@@ -1,4 +1,4 @@
-class Contents extends React.Component {
+export class Contents extends React.Component {
 
   render() {
     var contents = this.props.contents.slice(0).reverse();

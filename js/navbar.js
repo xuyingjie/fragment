@@ -1,4 +1,6 @@
-class Navbar extends React.Component {
+import {siteTitle} from './tool';
+
+export class Navbar extends React.Component {
 
   handleLogoutClick(e) {
     e.preventDefault();

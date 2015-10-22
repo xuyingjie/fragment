@@ -1,4 +1,7 @@
-class InputFile extends React.Component {
+import {upload} from './tool';
+import * as crypto from './lib/crypto';
+
+export class InputFile extends React.Component {
 
   constructor(props) {
     super(props);
@@ -39,7 +42,7 @@ class InputFile extends React.Component {
     var reader = new FileReader();
     reader.onload = function(e) {
 
-      var key = 'u/' + timeDiff();
+      var key = 'u/' + crypto.timeDiff();
 
       upload({
         key,
