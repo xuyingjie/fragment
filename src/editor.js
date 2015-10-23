@@ -1,5 +1,5 @@
 import {InputFile} from './inputFile';
-import {get, insertText} from './tool';
+import {get, insertText} from './tools/tool';
 
 export class Editor extends React.Component {
 
@@ -14,9 +14,9 @@ export class Editor extends React.Component {
     if (id) {
       get({
         key: 'set/' + id,
-        success: function(data){
+        success: data => {
           this.setState({section: data.section});
-        }.bind(this)
+        }
       });
     }
   }

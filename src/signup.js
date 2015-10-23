@@ -1,4 +1,4 @@
-import {upload} from './tool';
+import {upload} from './tools/tool';
 
 export class SignUp extends React.Component {
 
@@ -7,7 +7,7 @@ export class SignUp extends React.Component {
     div.innerHTML = `<div id="success-info">${info}</div>`;
     document.body.appendChild(div);
 
-    var tick = setTimeout(function() {
+    var tick = setTimeout(() => {
       document.body.removeChild(div);
       clearTimeout(tick);
     }, 700);
@@ -31,10 +31,10 @@ export class SignUp extends React.Component {
       key: name,
       data: JSON.stringify({user: user}),
       passwd: secret,
-      success: function() {
+      success: () => {
         // console.log('Success!!!');
         this.successInfo('Success!!!');
-      }.bind(this)
+      }
     });
 
   }

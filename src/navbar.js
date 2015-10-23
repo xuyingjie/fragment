@@ -1,4 +1,4 @@
-import {siteTitle} from './tool';
+import {siteTitle} from './tools/tool';
 
 export class Navbar extends React.Component {
 

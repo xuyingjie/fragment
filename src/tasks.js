@@ -1,5 +1,5 @@
-import {get, upload} from './tool';
-import * as crypto from './lib/crypto';
+import {get, upload} from './tools/tool';
+import * as crypto from './tools/crypto';
 
 export class Tasks extends React.Component {
 
@@ -11,10 +11,10 @@ export class Tasks extends React.Component {
   componentDidMount() {
     get({
       key: 'tasks',
-      success: function(data){
+      success: data => {
         this.setState({tasks: data.tasks});
         this.setState({query: data.tasks});
-      }.bind(this)
+      }
     });
   }
 
@@ -63,11 +63,11 @@ export class Tasks extends React.Component {
       upload({
         key: 'tasks',
         data: JSON.stringify({tasks: tasks}),
-        success: function() {
+        success: () => {
 
           this.setState({query: tasks});
           this.refs.content.value = '';
-        }.bind(this)
+        }
       });
 
     }
@@ -84,9 +84,9 @@ export class Tasks extends React.Component {
           </div>
         </form>
 
-        {tasks.map(function(x){
+        {tasks.map(x => {
           return <Task key={x.id} data={x} edit={this.handleEdit.bind(this, x)} />;
-        }.bind(this))}
+        })}
       </div>
     );
   }

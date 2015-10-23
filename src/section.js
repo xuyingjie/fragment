@@ -1,5 +1,5 @@
 import {Attachment} from './attachment';
-import {get} from './tool';
+import {get} from './tools/tool';
 
 export class Section extends React.Component {
 
@@ -13,9 +13,9 @@ export class Section extends React.Component {
 
     get({
       key: 'set/' + id,
-      success: function(data){
+      success: data => {
         this.setState({section: data.section});
-      }.bind(this)
+      }
     });
   }
 

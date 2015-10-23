@@ -1,5 +1,5 @@
-import {upload} from './tool';
-import * as crypto from './lib/crypto';
+import {upload} from './tools/tool';
+import * as crypto from './tools/crypto';
 
 export class InputFile extends React.Component {
 
@@ -40,7 +40,7 @@ export class InputFile extends React.Component {
 
   readAndUpload(file) {
     var reader = new FileReader();
-    reader.onload = function(e) {
+    reader.onload = e => {
 
       var key = 'u/' + crypto.timeDiff();
 
@@ -49,15 +49,15 @@ export class InputFile extends React.Component {
         data: reader.result,
         arrayBuffer: true,
         progress: document.getElementById('upload-progress'),
-        success: function() {
+        success: () => {
           this.props.uploadFileSuccess(key, file);
 
           // 递归上传
           this.handleChange();
-        }.bind(this)
+        }
       });
 
-    }.bind(this);
+    };
     reader.readAsArrayBuffer(file);
   }
 

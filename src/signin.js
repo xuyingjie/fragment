@@ -1,4 +1,4 @@
-import {get} from './tool';
+import {get} from './tools/tool';
 
 export class SignIn extends React.Component {
 
@@ -13,7 +13,7 @@ export class SignIn extends React.Component {
       key: name,
       passwd,
       iv,
-      success: function(data){
+      success: data => {
 
         localStorage.user = JSON.stringify(data.user);
 
@@ -21,7 +21,7 @@ export class SignIn extends React.Component {
         this.refs.name.value = '';
         this.refs.passwd.value = '';
         this.refs.iv.value = '';
-      }.bind(this)
+      }
     });
   }
 

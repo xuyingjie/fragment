@@ -1,4 +1,4 @@
-import * as crypto from './lib/crypto';
+import * as crypto from './crypto';
 
 export var siteTitle = '#';
 var bucket = 'fragment';
@@ -11,7 +11,7 @@ export function get(opts) {
   'use strict';
   var xhr = new XMLHttpRequest();
 
-  xhr.onload = function() {
+  xhr.onload = () => {
     if (xhr.readyState === 4) {
       if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
 
@@ -138,7 +138,7 @@ export function upload(opts) {
         };
       }
 
-      xhr.onload = function() {
+      xhr.onload = () => {
         if (xhr.readyState === 4) {
           if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
             opts.success();

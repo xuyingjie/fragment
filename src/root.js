@@ -6,8 +6,8 @@ import {Tasks} from './tasks';
 import {Contents} from './contents';
 import {Navbar} from './navbar';
 
-import {get, upload} from './tool';
-import * as crypto from './lib/crypto';
+import {get, upload} from './tools/tool';
+import * as crypto from './tools/crypto';
 
 class Root extends React.Component {
 
@@ -19,9 +19,9 @@ class Root extends React.Component {
   cache(){
     get({
       key: 'contents',
-      success: function(data){
+      success: data => {
         this.setState({contents: data.contents});
-      }.bind(this)
+      }
     });
   }
 
@@ -61,13 +61,13 @@ class Root extends React.Component {
       upload({
         key: 'set/' + t.id,
         data: JSON.stringify({section: data}),
-        success: function() {
+        success: () => {
 
           if (uploadContents) {
             upload({
               key: 'contents',
               data: JSON.stringify({contents: contents}),
-              success: function() {
+              success: () => {
                 location.href='#/t/'+ t.id;
               }
             });
@@ -84,9 +84,9 @@ class Root extends React.Component {
     upload({
       key,
       data: 'x',
-      success: function() {
+      success: () => {
         this.setState({erase: true});
-      }.bind(this)
+      }
     });
   }
 

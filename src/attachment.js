@@ -1,4 +1,4 @@
-import {fileTypeIcons} from './tool';
+import {fileTypeIcons} from './tools/tool';
 
 export class Attachment extends React.Component {
 
@@ -25,7 +25,7 @@ export class Attachment extends React.Component {
         get({
           key: x.key,
           arrayBuffer: true,
-          success: function(data) {
+          success: data => {
             var blob = new Blob([data], {'type': x.type});
             var objecturl = URL.createObjectURL(blob);
 
@@ -35,7 +35,7 @@ export class Attachment extends React.Component {
             this.setState({wait: false});
 
             // console.log('uuuu');
-          }.bind(this)
+          }
         });
       }
     }
