@@ -45,18 +45,14 @@ export class Section extends React.Component {
   render() {
     var x = this.state.section;
 
-    // Markdown
-    var md = window.markdownit({
-      html: true,
-      breaks: true,
-      linkify: true
-    });
-
     var parts = x.content.split(/(!\[.*?,.*?,.*?,.*?\])/);
     for (let i = 0; i < parts.length; i++) {
       if (i % 2 === 0) {
         if (parts[i] !== '') {
-          var rawMarkup = md.render(parts[i]);
+          var rawMarkup = marked(parts[i], {
+            breaks: true,
+            sanitize: true
+          });
           parts[i] = <section key={i} dangerouslySetInnerHTML={{__html: rawMarkup}}></section>;
         }
       } else {
