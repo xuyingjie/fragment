@@ -183,20 +183,19 @@ export function fileTypeIcons(type) {
     case 'image/png':
     case 'image/jpeg':
     case 'image/vnd.microsoft.icon':
-      return 'fa fa-file-image-o';
+      return 'octicon octicon-file-media';
     case 'application/x-xz':
     case 'application/gzip':
     case 'application/zip':
-      return 'fa fa-file-archive-o';
+      return 'octicon octicon-file-zip';
     case 'text/plain':
     case 'text/x-markdown':
-      return 'fa fa-file-text-o';
-    case 'application/pdf':
-      return 'fa fa-file-pdf-o';
     case 'application/msword':
     case 'application/vnd.oasis.opendocument.text':
-      return 'fa fa-file-word-o';
+      return 'octicon octicon-file-text';
+    case 'application/pdf':
+      return 'octicon octicon-file-pdf';
     default:
-      return 'fa fa-file-o';
+      return 'octicon octicon-file-binary';
   }
 }

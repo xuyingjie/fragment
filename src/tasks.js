@@ -99,7 +99,7 @@ class Task extends React.Component {
       <div className="tasks">
         {x.content}&nbsp;
         <a onClick={this.props.edit}>
-          <i className="fa fa-pencil"></i>
+          <i className="octicon octicon-pencil"></i>
         </a>
       </div>
     );

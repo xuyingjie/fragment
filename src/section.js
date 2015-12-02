@@ -57,7 +57,7 @@ export class Section extends React.Component {
       if (i % 2 === 0) {
         if (parts[i] !== '') {
           var rawMarkup = md.render(parts[i]);
-          parts[i] = <section dangerouslySetInnerHTML={{__html: rawMarkup}}></section>;
+          parts[i] = <section key={i} dangerouslySetInnerHTML={{__html: rawMarkup}}></section>;
         }
       } else {
         var m = parts[i].match(/!\[(.*?),(.*?),(.*?),(.*?)\]/);
@@ -68,7 +68,7 @@ export class Section extends React.Component {
           type: m[3],
           key: m[4]
         };
-        parts[i] =  <Attachment data={data} dragStart={this.dragStart.bind(this)} />;
+        parts[i] =  <Attachment key={i} data={data} dragStart={this.dragStart.bind(this)} />;
       }
     }
 

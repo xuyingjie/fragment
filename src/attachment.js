@@ -1,4 +1,4 @@
-import {fileTypeIcons} from './tools/tool';
+import {fileTypeIcons, get} from './tools/tool';
 
 export class Attachment extends React.Component {
 
@@ -99,7 +99,7 @@ export class Attachment extends React.Component {
       c = (
         <div>
           <img src={this.state.url[x.key]} data-key={x.key} onDragStart={this.props.dragStart} />
-          <div className="fa fa-external-link right" style={downloadIcon} onClick={this.download.bind(this, x)}></div>
+          <div className="octicon octicon-link-external right" style={downloadIcon} onClick={this.download.bind(this, x)}></div>
         </div>
       );
     } else {
@@ -122,7 +122,7 @@ class File extends React.Component {
     return (
       <div>
         <a className="item" title={x.name} data-key={x.key} draggable='true' onDragStart={this.props.dragStart} onClick={this.props.download.bind(this, x)}>
-          <i className={fileTypeIcons(x.type) + " fa-fw fa-lg"}></i>&nbsp;
+          <i className={fileTypeIcons(x.type)}></i>&nbsp;
           {x.name}
           <span className="right">{x.size}</span>
         </a>
