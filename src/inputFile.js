@@ -8,15 +8,6 @@ export class InputFile extends React.Component {
     this.state = {i: 0};
   }
 
-  handleClick(e) {
-    e.preventDefault();
-
-    var file = document.getElementById('file');
-    var evt = document.createEvent('MouseEvents');
-    evt.initEvent('click', true, true);
-    file.dispatchEvent(evt);
-  }
-
   handleChange() {
 
     var files = document.getElementById('file').files;
@@ -63,13 +54,13 @@ export class InputFile extends React.Component {
 
   render() {
     return (
-      <div className="attachment">
-        <input id="file" style={{display: 'none'}} type="file" multiple onChange={this.handleChange.bind(this)} />
-        <a id="file-info" className="item" onClick={this.handleClick}>
+      <button type="button" className="small button x-upload">
+        <span id="file-info">
           选择文件上传
-        </a>
-        <div id="upload-progress" className="item progress-bar"></div>
-      </div>
+        </span>
+        <input id="file" type="file" multiple onChange={this.handleChange.bind(this)} />
+        <i id="upload-progress"></i>
+      </button>
     );
   }
 }

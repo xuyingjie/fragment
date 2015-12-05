@@ -176,7 +176,7 @@ export function insertText(obj, str) {
 //
 // File Type Icons
 //
-export function fileTypeIcons(type) {
+export function icons(type) {
   'use strict';
 
   switch (type) {

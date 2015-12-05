@@ -20,33 +20,25 @@ export class Navbar extends React.Component {
   }
 
   render() {
-    var button;
+    let title = siteTitle;
+    let ctrl = '';
+
     if(this.props.auth){
-      button = (
+      title = <a href="#/">{siteTitle}</a>;
+      ctrl = (
         <div>
-          <a className="nav-site nav-title" href="#/">{siteTitle}</a>
-          <div className="right nav-right">
-            <a className="nav-site" title="添加" href="#/a">
-              <span className="octicon octicon-plus" aria-hidden="true"></span>
-            </a>
-            <div className="nav-site" onDragOver={this.preventDefault} onDrop={this.drop.bind(this)}>
-              <span className="octicon octicon-trashcan" aria-hidden="true"></span>
-            </div>
-            <span className="nav-site"></span>
-            <a className="nav-site" onClick={this.handleLogoutClick.bind(this)}>
-              <span className="octicon octicon-sign-out" aria-hidden="true"></span>
-            </a>
-          </div>
+          <a className="octicon octicon-plus" href="#/a"></a>
+          <a className="octicon octicon-trashcan" onDragOver={this.preventDefault} onDrop={this.drop.bind(this)}></a>
+          <a className="octicon octicon-sign-out" onClick={this.handleLogoutClick.bind(this)}></a>
         </div>
       );
-    } else {
-      button = <span className="nav-site nav-title">{siteTitle}</span>;
     }
 
     return (
-      <nav className="nav-main">
-        <div className="wrap">
-          {button}
+      <nav className="row x-bar">
+        <div className="large-12 columns">
+          <h1>{title}</h1>
+          {ctrl}
         </div>
       </nav>
     );

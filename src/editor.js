@@ -51,19 +51,12 @@ export class Editor extends React.Component {
   render() {
     var x = this.state.section;
     return (
-      <div>
-        <form onSubmit={this.uploadSetToServer.bind(this)}>
-          <div className="form-group">
-            <input type="text" className="form-control" placeholder="key" onChange={this.handleTitleChange.bind(this)} value={x.title} />
-          </div>
-          <div className="form-group">
-            <textarea id="content" className="form-control" rows="17" placeholder="value" onChange={this.handleContentChange.bind(this)} value={x.content} />
-          </div>
-          <button type="submit" className="btn right">Save</button>
-        </form>
-
+      <form onSubmit={this.uploadSetToServer.bind(this)}>
+        <input type="text" placeholder="key" onChange={this.handleTitleChange.bind(this)} value={x.title} />
+        <textarea id="content" rows="24" placeholder="value" onChange={this.handleContentChange.bind(this)} value={x.content} />
         <InputFile uploadFileSuccess={this.uploadFileSuccess.bind(this)} />
-      </div>
+        <button type="submit" className="small button float-right">Save</button>
+      </form>
     );
   }
 }

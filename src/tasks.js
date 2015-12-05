@@ -79,9 +79,7 @@ export class Tasks extends React.Component {
     return (
       <div>
         <form onSubmit={this.save.bind(this)}>
-          <div className="form-group">
-            <input type="text" className="form-control tasks" placeholder="tasks" onChange={this.handleChange.bind(this)} ref="content" />
-          </div>
+          <input type="text" placeholder="tasks" onChange={this.handleChange.bind(this)} ref="content" />
         </form>
 
         {tasks.map(x => {
@@ -96,12 +94,10 @@ class Task extends React.Component {
   render(){
     var x = this.props.data;
     return (
-      <div className="tasks">
+      <p>
         {x.content}&nbsp;
-        <a onClick={this.props.edit}>
-          <i className="octicon octicon-pencil"></i>
-        </a>
-      </div>
+        <a className="octicon octicon-pencil" onClick={this.props.edit}></a>
+      </p>
     );
   }
 }

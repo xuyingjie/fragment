@@ -70,7 +70,7 @@ export class Section extends React.Component {
 
     return (
       <article>
-        <h1><a href={"#/e/" + x.id} title="编辑">{x.title}</a></h1>
+        <h2><a href={"#/e/" + x.id} title="编辑">{x.title}</a></h2>
         {parts}
       </article>
     );

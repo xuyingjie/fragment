@@ -148,7 +148,11 @@ class Root extends React.Component {
     return (
       <div>
         <Navbar auth={this.state.auth} logout={this.handleLogout.bind(this)} erase={this.handleErase.bind(this)} />
-        <div className="wrap">{page}</div>
+        <div className="row">
+          <div className="large-12 columns">
+            {page}
+          </div>
+        </div>
       </div>
       );
   }

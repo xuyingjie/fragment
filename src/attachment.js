@@ -1,4 +1,4 @@
-import {fileTypeIcons, get} from './tools/tool';
+import {icons, get} from './tools/tool';
 
 export class Attachment extends React.Component {
 
@@ -83,51 +83,20 @@ export class Attachment extends React.Component {
   }
 
   render() {
-    var x = this.props.data;
-    var c;
-    var inline = {
-      'display': 'inline-block'
-    };
-    var downloadIcon = {
-      'display': 'block',
-      'marginTop': '-17px',
-      'marginRight': '1px',
-      'cursor': 'pointer'
-    };
+    let x = this.props.data;
+    let c = '';
 
     if (x.type === 'image/png' || x.type === 'image/jpeg' || x.type === 'image/vnd.microsoft.icon'){
-      c = (
-        <div>
-          <img src={this.state.url[x.key]} data-key={x.key} onDragStart={this.props.dragStart} />
-          <div className="octicon octicon-link-external right" style={downloadIcon} onClick={this.download.bind(this, x)}></div>
-        </div>
-      );
+      c = <img className="thumbnail" title="下载" src={this.state.url[x.key]} data-key={x.key} onDragStart={this.props.dragStart} onClick={this.download.bind(this, x)} />;
     } else {
       c = (
-        <div className="attachment">
-          <File key={x.key} data={x} dragStart={this.props.dragStart} download={this.download} />
-        </div>
+        <a className="label" title={x.name} data-key={x.key} draggable='true' onDragStart={this.props.dragStart} onClick={this.download.bind(this, x)}>
+          <i className={icons(x.type)}></i>
+          {` ${x.name} ${x.size}`}
+          <i id={x.key}></i>
+        </a>
       );
     }
-
-    return <div style={inline}>{c}</div>;
-  }
-}
-
-class File extends React.Component {
-
-  render() {
-    var x = this.props.data;
-
-    return (
-      <div>
-        <a className="item" title={x.name} data-key={x.key} draggable='true' onDragStart={this.props.dragStart} onClick={this.props.download.bind(this, x)}>
-          <i className={fileTypeIcons(x.type)}></i>&nbsp;
-          {x.name}
-          <span className="right">{x.size}</span>
-        </a>
-        <div id={x.key} className="item progress-bar"></div>
-      </div>
-    );
+    return <p className="x-attachment">{c}</p>;
   }
 }

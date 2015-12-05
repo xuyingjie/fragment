@@ -42,31 +42,31 @@ export class SignUp extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className="form-group">
-          <label htmlFor="inputName3">Name</label>
-          <input type="text" className="form-control" id="inputName3" ref="name"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="secret">Password</label>
-          <input type="text" className="form-control" id="secret" ref="secret"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="passwd">Random Password</label>
-          <input type="text" className="form-control" id="passwd" ref="passwd"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="iv">iv</label>
-          <input type="text" className="form-control" id="iv" ref="iv"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="AK">AK</label>
-          <input type="text" className="form-control" id="AK" ref="AK"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="SK">SK</label>
-          <input type="text" className="form-control" id="SK" ref="SK"/>
-        </div>
-        <button type="submit" className="btn">Sign up</button>
+        <label>
+          Name
+          <input type="text" ref="name"/>
+        </label>
+        <label>
+          Password
+          <input type="text" ref="secret"/>
+        </label>
+        <label>
+          Random Password
+          <input type="text" ref="passwd"/>
+        </label>
+        <label>
+          iv
+          <input type="text" ref="iv"/>
+        </label>
+        <label>
+          AK
+          <input type="text" ref="AK"/>
+        </label>
+        <label>
+          SK
+          <input type="text" ref="SK"/>
+        </label>
+        <button type="submit" className="button">Sign up</button>
       </form>
     );
   }

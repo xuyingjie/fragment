@@ -28,19 +28,19 @@ export class SignIn extends React.Component {
   render() {
     return (
       <form onSubmit={this.handleSubmit.bind(this)}>
-        <div className="form-group">
-          <label htmlFor="inputName3">Name</label>
-          <input type="text" className="form-control" id="inputName3" ref="name"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="inputPassword3">Password</label>
-          <input type="text" className="form-control" id="inputPassword3" ref="passwd"/>
-        </div>
-        <div className="form-group">
-          <label htmlFor="iv">iv</label>
-          <input type="text" className="form-control" id="iv" ref="iv"/>
-        </div>
-        <button type="submit" className="btn">Sign in</button>
+        <label>
+          Name
+          <input type="text" ref="name"/>
+        </label>
+        <label>
+          Password
+          <input type="text" ref="passwd"/>
+        </label>
+        <label>
+          iv
+          <input type="text" ref="iv"/>
+        </label>
+        <button type="submit" className="button">Sign in</button>
       </form>
     );
   }
