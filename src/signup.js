@@ -2,41 +2,32 @@ import {upload} from './tools/tool';
 
 export class SignUp extends React.Component {
 
-  successInfo(info) {
-    var div = document.createElement('div');
-    div.innerHTML = `<div id="success-info">${info}</div>`;
-    document.body.appendChild(div);
-
-    var tick = setTimeout(() => {
-      document.body.removeChild(div);
-      clearTimeout(tick);
-    }, 700);
-  }
-
   handleSubmit(e) {
     e.preventDefault();
 
-    var name = this.refs.name.value;
-    var secret = this.refs.secret.value;
-    var passwd = this.refs.passwd.value;
-    var iv = this.refs.iv.value;
-    var AK = this.refs.AK.value;
-    var SK = this.refs.SK.value;
+    let name = this.refs.name.value;
+    let secret = this.refs.secret.value;
+    let passwd = this.refs.passwd.value;
+    let iv = this.refs.iv.value;
+    let AK = this.refs.AK.value;
+    let SK = this.refs.SK.value;
 
-    var user = { AK, SK, passwd, iv };
+    let user = {
+      AK, SK, passwd, iv
+    };
 
     localStorage.user = JSON.stringify(user);
 
     upload({
       key: name,
-      data: JSON.stringify({user: user}),
+      data: JSON.stringify({
+        user: user
+      }),
       passwd: secret,
       success: () => {
-        // console.log('Success!!!');
-        this.successInfo('Success!!!');
+        console.log('Success!!!');
       }
     });
-
   }
 
   render() {

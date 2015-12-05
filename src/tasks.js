@@ -19,9 +19,9 @@ export class Tasks extends React.Component {
   }
 
   handleChange(e) {
-    var keyword = e.target.value;
-    var query = [];
-    var s = new RegExp(keyword, 'i');
+    let keyword = e.target.value;
+    let query = [];
+    let s = new RegExp(keyword, 'i');
     for (let x of this.state.tasks) {
       if (x.content.match(s) !== null) {
         query.push(x);
@@ -40,7 +40,7 @@ export class Tasks extends React.Component {
 
     if (this.refs.content.value !== ''){
 
-      var tasks = this.state.tasks;
+      let tasks = this.state.tasks;
 
       if (this.state.editID !== ''){
         for (let i in tasks) {
@@ -52,7 +52,7 @@ export class Tasks extends React.Component {
         }
       }
 
-      var t = {
+      let t = {
         id: crypto.timeDiff(),
         content: this.refs.content.value
       };
@@ -74,7 +74,7 @@ export class Tasks extends React.Component {
   }
 
   render() {
-    var tasks = this.state.query.slice(0).reverse();
+    let tasks = this.state.query.slice(0).reverse();
 
     return (
       <div>
@@ -83,21 +83,14 @@ export class Tasks extends React.Component {
         </form>
 
         {tasks.map(x => {
-          return <Task key={x.id} data={x} edit={this.handleEdit.bind(this, x)} />;
+          return (
+            <p key={x.id}>
+              {`${x.content} `}
+              <a className="octicon octicon-pencil" onClick={this.handleEdit.bind(this, x)}></a>
+            </p>
+          );
         })}
       </div>
-    );
-  }
-}
-
-class Task extends React.Component {
-  render(){
-    var x = this.props.data;
-    return (
-      <p>
-        {x.content}&nbsp;
-        <a className="octicon octicon-pencil" onClick={this.props.edit}></a>
-      </p>
     );
   }
 }

@@ -13,7 +13,7 @@ export class Navbar extends React.Component {
 
   drop(e) {
     e.preventDefault();
-    var key = e.dataTransfer.getData('key');
+    let key = e.dataTransfer.getData('key');
     if (key !== ''){
       this.props.erase(key);
     }

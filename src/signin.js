@@ -5,16 +5,15 @@ export class SignIn extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
 
-    var name = this.refs.name.value;
-    var passwd = this.refs.passwd.value;
-    var iv = this.refs.iv.value;
+    let name = this.refs.name.value;
+    let passwd = this.refs.passwd.value;
+    let iv = this.refs.iv.value;
 
     get({
       key: name,
       passwd,
       iv,
       success: data => {
-
         localStorage.user = JSON.stringify(data.user);
 
         this.props.login();

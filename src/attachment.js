@@ -18,7 +18,7 @@ export class Attachment extends React.Component {
   }
 
   loadIMG() {
-    var x = this.props.data;
+    let x = this.props.data;
     if (x.type === 'image/png' || x.type === 'image/jpeg' || x.type === 'image/vnd.microsoft.icon'){
       if (!this.state.url[x.key] && !this.state.wait) {
         this.setState({wait: true});
@@ -26,10 +26,10 @@ export class Attachment extends React.Component {
           key: x.key,
           arrayBuffer: true,
           success: data => {
-            var blob = new Blob([data], {'type': x.type});
-            var objecturl = URL.createObjectURL(blob);
+            let blob = new Blob([data], {'type': x.type});
+            let objecturl = URL.createObjectURL(blob);
 
-            var url = this.state.url;
+            let url = this.state.url;
             url[x.key] = objecturl;
             this.setState({url: url});
             this.setState({wait: false});
@@ -44,23 +44,23 @@ export class Attachment extends React.Component {
   download(file, e) {
     e.preventDefault();
 
-    var progress = false;
-    if (document.getElementById(file.key)) {
-      progress = document.getElementById(file.key);
+    let progress = false;
+    if (this.refs[file.key]) {
+      progress = this.refs[file.key];
     }
 
     get({
       key: file.key,
       arrayBuffer: true,
       progress,
-      success: function(data) {
-        var blob = new Blob([data], {
+      success: data => {
+        let blob = new Blob([data], {
           'type': file.type
         });
-        var objecturl = URL.createObjectURL(blob);
+        let objecturl = URL.createObjectURL(blob);
 
         // 生成下载
-        var anchor = document.createElement('a');
+        let anchor = document.createElement('a');
         anchor.href = objecturl;
 
         // 新标签页打开
@@ -70,7 +70,7 @@ export class Attachment extends React.Component {
         anchor.download = file.name;
 
         document.body.appendChild(anchor);
-        var evt = document.createEvent('MouseEvents');
+        let evt = document.createEvent('MouseEvents');
         evt.initEvent('click', true, true);
         anchor.dispatchEvent(evt);
         document.body.removeChild(anchor);
@@ -93,7 +93,7 @@ export class Attachment extends React.Component {
         <a className="label" title={x.name} data-key={x.key} draggable='true' onDragStart={this.props.dragStart} onClick={this.download.bind(this, x)}>
           <i className={icons(x.type)}></i>
           {` ${x.name} ${x.size}`}
-          <i id={x.key}></i>
+          <i ref={x.key}></i>
         </a>
       );
     }

@@ -29,12 +29,12 @@ class Root extends React.Component {
   handleUploadSetToServer(data){
     if (data.title !== '') {
 
-      var contents = this.state.contents;
-      var uploadContents = true;
+      let contents = this.state.contents;
+      let uploadContents = true;
 
       data.timestamp = Date.now();
 
-      var t = {
+      let t = {
         id: data.id,
         title: data.title
         // timestamp: data.timestamp
@@ -122,7 +122,7 @@ class Root extends React.Component {
   }
 
   render(){
-    var page;
+    let page;
     switch (this.state.url.split('/')[1]) {
       case 't':
         page = <Section {...this.state} eraseEnd={this.handleEraseEnd.bind(this)} uploadSetToServer={this.handleUploadSetToServer.bind(this)} />;
