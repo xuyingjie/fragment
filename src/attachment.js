@@ -19,7 +19,7 @@ export class Attachment extends React.Component {
 
   loadIMG() {
     let x = this.props.data;
-    if (x.type === 'image/png' || x.type === 'image/jpeg' || x.type === 'image/vnd.microsoft.icon'){
+    if (x.type.split('/')[0] === 'image'){
       if (!this.state.url[x.key] && !this.state.wait) {
         this.setState({wait: true});
         get({
@@ -86,7 +86,7 @@ export class Attachment extends React.Component {
     let x = this.props.data;
     let c = '';
 
-    if (x.type === 'image/png' || x.type === 'image/jpeg' || x.type === 'image/vnd.microsoft.icon'){
+    if (x.type.split('/')[0] === 'image'){
       c = <img className="thumbnail" title="下载" src={this.state.url[x.key]} data-key={x.key} onDragStart={this.props.dragStart} onClick={this.download.bind(this, x)} />;
     } else {
       c = (

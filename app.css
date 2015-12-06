@@ -2,13 +2,16 @@ body {
   font-family: "Helvetica Neue", Helvetica, Roboto, Arial, "Open Sans", 方正悠黑简体, 汉仪旗黑, sans-serif;
 }
 code {
-  font-family: "Source Code Pro", Consolas, "Liberation Mono", Courier, monospace;
+  font-family: "Source Code Pro", Consolas, "Liberation Mono", Courier, 方正悠黑简体, monospace;
 }
 input[type=text], textarea, input[type=text]:focus, textarea:focus {
   border-width: 0 0 1px;
   box-shadow: none;
-  padding-left: 2px;
-  padding-bottom: 2px;
+  padding-left: 0.125rem;
+  padding-bottom: 0.125rem;
+}
+.row {
+  max-width: none;
 }
 .button {
   border: none;
@@ -18,33 +21,33 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
 }
 
 .x-bar {
-  height: 45px;
+  height: 2.5rem;
   background-color: #007095;
-  margin-bottom: 20px;
+  margin-bottom: 1.25rem;
 }
 .x-bar > .columns {
   display: flex;
   justify-content: space-between;
 }
 .x-bar h1, .x-bar a {
-  height: 45px;
-  line-height: 45px;
+  height: 2.5rem;
+  line-height: 2.5rem;
   color: rgba(255, 255, 255, 0.75);
   margin: 0;
 }
 .x-bar h1 {
-  font-size: 24px;
+  font-size: 1.25rem;
 }
 .x-bar .octicon {
-  padding-left: 16px;
+  padding-left: 1rem;
 }
 .x-bar .octicon:last-child {
-  padding-left: 32px;
+  padding-left: 2rem;
 }
 
 .x-contents .label {
   cursor: pointer;
-  margin-right: 2px;
+  margin-right: 0.125rem;
 }
 .x-contents .label:first-child:hover {
   color: #fefefe;
@@ -72,7 +75,7 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
 }
 .x-upload {
   position: relative;
-  min-width: 200px;
+  min-width: 12.5rem;
 }
 .x-upload input[type=file] {
   opacity: 0;
