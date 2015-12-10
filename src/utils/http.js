@@ -1,10 +1,12 @@
+'use strict';
+
 import * as crypto from './crypto';
 
 const bucket = 'fragment';
 
 // or use Promise
 export function get(opts) {
-  'use strict';
+
   var xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
@@ -32,7 +34,7 @@ export function get(opts) {
               var str = crypto.arrayBufferToStr(decrypted);
               opts.success(JSON.parse(str));
             }
-          }
+          },
         });
 
       }
@@ -64,7 +66,6 @@ export function get(opts) {
 
 
 export function upload(opts) {
-  'use strict';
 
   var user = JSON.parse(localStorage.user);
   var passwd = opts.passwd ? opts.passwd : user.passwd;
@@ -82,7 +83,7 @@ export function upload(opts) {
 
       // new Blob([encList.buffer]) fast than new Blob([encList]) type不是必需的
       var blob = new Blob([encrypted], {
-        type: 'application/octet-stream'
+        type: 'application/octet-stream',
       });
 
       var AK = user.AK;
@@ -102,15 +103,15 @@ export function upload(opts) {
           {'acl': 'public-read'},
           {'Content-Type': 'application/octet-stream'},
           {'Cache-Control': cache},
-          ['eq', '$key', opts.key]
-        ]
+          ['eq', '$key', opts.key],
+        ],
       };
       var policy = btoa(JSON.stringify(policyJson));
       var signature = crypto.b64_hmac_sha1(SK, policy);
 
       var formData = new FormData();
       formData.append('key', opts.key);
-      formData.append('acl', "public-read");
+      formData.append('acl', 'public-read');
       formData.append('Content-Type', 'application/octet-stream');
       formData.append('Cache-Control', cache);
       formData.append('AWSAccessKeyId', AK);
@@ -144,7 +145,7 @@ export function upload(opts) {
 
       xhr.open('POST', `http://${bucket}.obs.cn-north-1.myhwclouds.com/`, true);
       xhr.send(formData);
-    }
+    },
   });
 
 }

@@ -1,3 +1,5 @@
+import React from 'react';
+import marked from 'marked';
 import {Attachment} from '../components/attachment';
 import {get} from '../utils/http';
 
@@ -15,7 +17,7 @@ export class Section extends React.Component {
       key: 'set/' + id,
       success: data => {
         this.setState({section: data.section});
-      }
+      },
     });
   }
 
@@ -51,7 +53,7 @@ export class Section extends React.Component {
         if (parts[i] !== '') {
           let rawMarkup = marked(parts[i], {
             breaks: true,
-            sanitize: true
+            sanitize: true,
           });
           parts[i] = <section key={i} dangerouslySetInnerHTML={{__html: rawMarkup}}></section>;
         }
@@ -62,7 +64,7 @@ export class Section extends React.Component {
           name: m[1],
           size: m[2],
           type: m[3],
-          key: m[4]
+          key: m[4],
         };
         parts[i] =  <Attachment key={i} data={data} dragStart={this.dragStart.bind(this)} />;
       }
@@ -70,7 +72,7 @@ export class Section extends React.Component {
 
     return (
       <article>
-        <h3><a href={"#/e/" + x.id} title="编辑">{x.title}</a></h3>
+        <h3><a href={'#/e/' + x.id} title="编辑">{x.title}</a></h3>
         {parts}
       </article>
     );

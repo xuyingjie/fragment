@@ -1,3 +1,5 @@
+import React from 'react';
+
 const title = '#';
 
 export class Navbar extends React.Component {

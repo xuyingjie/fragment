@@ -1,3 +1,4 @@
+import React from 'react';
 import {get} from '../utils/http';
 
 export class SignIn extends React.Component {
@@ -20,7 +21,7 @@ export class SignIn extends React.Component {
         this.refs.name.value = '';
         this.refs.passwd.value = '';
         this.refs.iv.value = '';
-      }
+      },
     });
   }
 

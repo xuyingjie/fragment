@@ -1,3 +1,4 @@
+import React from 'react';
 import {get} from '../utils/http';
 import {icons} from '../utils/others';
 
@@ -36,7 +37,7 @@ export class Attachment extends React.Component {
             this.setState({wait: false});
 
             // console.log('uuuu');
-          }
+          },
         });
       }
     }
@@ -56,7 +57,7 @@ export class Attachment extends React.Component {
       progress,
       success: data => {
         let blob = new Blob([data], {
-          'type': file.type
+          'type': file.type,
         });
         let objecturl = URL.createObjectURL(blob);
 
@@ -79,7 +80,7 @@ export class Attachment extends React.Component {
         if (progress) {
           progress.value = 0;
         }
-      }
+      },
     });
   }
 

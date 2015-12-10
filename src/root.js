@@ -1,3 +1,6 @@
+import React from 'react';
+import ReactDOM from 'react-dom';
+
 import {Section} from './page/section';
 import {Editor} from './page/editor';
 import {SignIn} from './page/signin';
@@ -21,7 +24,7 @@ class Root extends React.Component {
       key: 'contents',
       success: data => {
         this.setState({contents: data.contents});
-      }
+      },
     });
   }
 
@@ -36,8 +39,8 @@ class Root extends React.Component {
 
       let t = {
         id: data.id,
-        title: data.title
-        // timestamp: data.timestamp
+        title: data.title,
+        // timestamp: data.timestamp,
       };
 
       if (t.id === '') {
@@ -69,12 +72,12 @@ class Root extends React.Component {
               data: JSON.stringify({contents: contents}),
               success: () => {
                 location.href='#/t/'+ t.id;
-              }
+              },
             });
           } else {
             location.href='#/t/'+ t.id;
           }
-        }
+        },
       });
 
     }
@@ -86,7 +89,7 @@ class Root extends React.Component {
       data: 'x',
       success: () => {
         this.setState({erase: true});
-      }
+      },
     });
   }
 

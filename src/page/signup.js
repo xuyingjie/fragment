@@ -1,3 +1,4 @@
+import React from 'react';
 import {upload} from '../utils/http';
 
 export class SignUp extends React.Component {
@@ -13,7 +14,7 @@ export class SignUp extends React.Component {
     let SK = this.refs.SK.value;
 
     let user = {
-      AK, SK, passwd, iv
+      AK, SK, passwd, iv,
     };
 
     localStorage.user = JSON.stringify(user);
@@ -21,12 +22,12 @@ export class SignUp extends React.Component {
     upload({
       key: name,
       data: JSON.stringify({
-        user: user
+        user: user,
       }),
       passwd: secret,
       success: () => {
         console.log('Success!!!');
-      }
+      },
     });
   }
 

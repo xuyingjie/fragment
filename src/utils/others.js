@@ -1,7 +1,7 @@
+'use strict';
 
 // textarea 插入文本
 export function insertText(obj, str) {
-  'use strict';
 
   if (document.selection) {
     var sel = document.selection.createRange();
@@ -21,7 +21,6 @@ export function insertText(obj, str) {
 
 // File Type Icons
 export function icons(type) {
-  'use strict';
 
   switch (type) {
     case 'image/png':

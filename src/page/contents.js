@@ -1,3 +1,5 @@
+import React from 'react';
+
 export class Contents extends React.Component {
 
   render() {
@@ -6,7 +8,7 @@ export class Contents extends React.Component {
       <div className="x-contents">
         <a className="label" href="#/tasks">任务</a>
         {contents.map(x => {
-          return <a className="secondary label" key={x.id} href={"#/t/" + x.id}>{x.title}</a>;
+          return <a className="secondary label" key={x.id} href={'#/t/' + x.id}>{x.title}</a>;
         })}
       </div>
     );

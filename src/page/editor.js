@@ -1,3 +1,4 @@
+import React from 'react';
 import {InputFile} from '../components/inputFile';
 import {get} from '../utils/http';
 import {insertText} from '../utils/others';
@@ -17,7 +18,7 @@ export class Editor extends React.Component {
         key: 'set/' + id,
         success: data => {
           this.setState({section: data.section});
-        }
+        },
       });
     }
   }

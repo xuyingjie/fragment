@@ -1,3 +1,4 @@
+import React from 'react';
 import {upload} from '../utils/http';
 import * as crypto from '../utils/crypto';
 
@@ -31,7 +32,7 @@ export class InputFile extends React.Component {
 
   readAndUpload(file) {
     let reader = new FileReader();
-    reader.onload = e => {
+    reader.onload = () => {
 
       let key = 'u/' + crypto.timeDiff();
 
@@ -45,7 +46,7 @@ export class InputFile extends React.Component {
 
           // 递归上传
           this.handleChange();
-        }
+        },
       });
 
     };

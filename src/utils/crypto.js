@@ -1,15 +1,14 @@
+'use strict';
+
 export function timeDiff() {
-  'use strict';
   return Date.now() + '' + Math.floor(Math.random() * 9000 + 1000);
 }
 
 export function arrayBufferToStr(buf) {
-  'use strict';
   return String.fromCharCode.apply(null, new Uint16Array(buf));
 }
 
 export function strToArrayBuffer(str) {
-  'use strict';
 
   var buf = new ArrayBuffer(str.length * 2);
   var bufView = new Uint16Array(buf);
@@ -25,14 +24,14 @@ export function strToArrayBuffer(str) {
 // or use Promise
 //
 export function importKey(str, callback) {
-  'use strict';
+
   window.crypto.subtle.importKey(
-    "raw", //can be "jwk" or "raw"
+    'raw', //can be 'jwk' or 'raw'
     strToArrayBuffer(str), { //this is the algorithm options
-      name: "AES-GCM",
+      name: 'AES-GCM',
     },
     false, //whether the key is extractable (i.e. can be used in exportKey)
-    ["encrypt", "decrypt"] //can "encrypt", "decrypt", "wrapKey", or "unwrapKey"
+    ['encrypt', 'decrypt'] //can 'encrypt', 'decrypt', 'wrapKey', or 'unwrapKey'
   )
     .then(key => {
       //returns the symmetric key
@@ -44,10 +43,10 @@ export function importKey(str, callback) {
 }
 
 export function encrypt(opt) {
-  'use strict';
+
   importKey(opt.passwd, key => {
     window.crypto.subtle.encrypt({
-      name: "AES-GCM",
+      name: 'AES-GCM',
 
       //Don't re-use initialization vectors!
       //Always generate a new iv every time your encrypt!
@@ -74,10 +73,10 @@ export function encrypt(opt) {
 }
 
 export function decrypt(opt) {
-  'use strict';
+
   importKey(opt.passwd, key => {
     window.crypto.subtle.decrypt({
-      name: "AES-GCM",
+      name: 'AES-GCM',
       iv: strToArrayBuffer(opt.iv), //The initialization vector you used to encrypt
       // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
       tagLength: 128, //The tagLength you used to encrypt (if any)
@@ -96,7 +95,7 @@ export function decrypt(opt) {
 }
 
 export function b64_hmac_sha1(k, d, _p, _z) {
-  'use strict';
+
   // heavily optimized and compressed version of http://pajhome.org.uk/crypt/md5/sha1.js
   // _p = b64pad, _z = character size; not used here but I left them available just in case
   if (!_p) {
@@ -186,7 +185,7 @@ export function b64_hmac_sha1(k, d, _p, _z) {
     return _c(o.concat(h), 512 + 160);
   }
   function _n(b) {
-    var t = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/",
+    var t = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/',
       s = '';
     for (var i = 0; i < b.length * 4; i += 3) {
       var r = (((b[i >> 2] >> 8 * (3 - i % 4)) & 0xFF) << 16) | (((b[i + 1 >> 2] >> 8 * (3 - (i + 1) % 4)) & 0xFF) << 8) | ((b[i + 2 >> 2] >> 8 * (3 - (i + 2) % 4)) & 0xFF);

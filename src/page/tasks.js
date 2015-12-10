@@ -1,3 +1,4 @@
+import React from 'react';
 import {get, upload} from '../utils/http';
 import * as crypto from '../utils/crypto';
 
@@ -14,7 +15,7 @@ export class Tasks extends React.Component {
       success: data => {
         this.setState({tasks: data.tasks});
         this.setState({query: data.tasks});
-      }
+      },
     });
   }
 
@@ -54,7 +55,7 @@ export class Tasks extends React.Component {
 
       let t = {
         id: crypto.timeDiff(),
-        content: this.refs.content.value
+        content: this.refs.content.value,
       };
       tasks.push(t);
       // console.log(this.state.tasks);
@@ -67,7 +68,7 @@ export class Tasks extends React.Component {
 
           this.setState({query: tasks});
           this.refs.content.value = '';
-        }
+        },
       });
 
     }
