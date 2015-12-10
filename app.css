@@ -47,6 +47,7 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
 
 .x-contents .label {
   cursor: pointer;
+  font-size: 0.875rem;
   margin-right: 0.125rem;
 }
 .x-contents .label:first-child:hover {
@@ -64,6 +65,7 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
 .x-attachment .label {
   cursor: pointer;
   position: relative;
+  white-space: normal;
 }
 .x-attachment i:last-child, .x-upload i {
   position: absolute;

@@ -1,4 +1,4 @@
-import {get} from './tools/tool';
+import {get} from '../utils/http';
 
 export class SignIn extends React.Component {
 

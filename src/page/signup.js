@@ -1,4 +1,4 @@
-import {upload} from './tools/tool';
+import {upload} from '../utils/http';
 
 export class SignUp extends React.Component {
 

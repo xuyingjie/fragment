@@ -1,5 +1,6 @@
-import {InputFile} from './inputFile';
-import {get, insertText} from './tools/tool';
+import {InputFile} from '../components/inputFile';
+import {get} from '../utils/http';
+import {insertText} from '../utils/others';
 
 export class Editor extends React.Component {
 

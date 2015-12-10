@@ -1,5 +1,5 @@
-import {get, upload} from './tools/tool';
-import * as crypto from './tools/crypto';
+import {get, upload} from '../utils/http';
+import * as crypto from '../utils/crypto';
 
 export class Tasks extends React.Component {
 

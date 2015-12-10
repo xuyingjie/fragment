@@ -1,4 +1,5 @@
-import {icons, get} from './tools/tool';
+import {get} from '../utils/http';
+import {icons} from '../utils/others';
 
 export class Attachment extends React.Component {
 

@@ -1,13 +1,13 @@
-import {Section} from './section';
-import {Editor} from './editor';
-import {SignIn} from './signin';
-import {SignUp} from './signup';
-import {Tasks} from './tasks';
-import {Contents} from './contents';
-import {Navbar} from './navbar';
+import {Section} from './page/section';
+import {Editor} from './page/editor';
+import {SignIn} from './page/signin';
+import {SignUp} from './page/signup';
+import {Tasks} from './page/tasks';
+import {Contents} from './page/contents';
+import {Navbar} from './components/navbar';
 
-import {get, upload} from './tools/tool';
-import * as crypto from './tools/crypto';
+import {get, upload} from './utils/http';
+import * as crypto from './utils/crypto';
 
 class Root extends React.Component {
 

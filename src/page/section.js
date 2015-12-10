@@ -1,5 +1,5 @@
-import {Attachment} from './attachment';
-import {get} from './tools/tool';
+import {Attachment} from '../components/attachment';
+import {get} from '../utils/http';
 
 export class Section extends React.Component {
 
@@ -70,7 +70,7 @@ export class Section extends React.Component {
 
     return (
       <article>
-        <h2><a href={"#/e/" + x.id} title="编辑">{x.title}</a></h2>
+        <h3><a href={"#/e/" + x.id} title="编辑">{x.title}</a></h3>
         {parts}
       </article>
     );

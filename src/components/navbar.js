@@ -1,4 +1,4 @@
-import {siteTitle} from './tools/tool';
+const title = '#';
 
 export class Navbar extends React.Component {
 
@@ -20,11 +20,11 @@ export class Navbar extends React.Component {
   }
 
   render() {
-    let title = siteTitle;
+    let t = title;
     let ctrl = '';
 
     if(this.props.auth){
-      title = <a href="#/">{siteTitle}</a>;
+      t = <a href="#/">{title}</a>;
       ctrl = (
         <div>
           <a className="octicon octicon-plus" href="#/a"></a>
@@ -37,7 +37,7 @@ export class Navbar extends React.Component {
     return (
       <nav className="row x-bar">
         <div className="large-12 columns">
-          <h1>{title}</h1>
+          <h1>{t}</h1>
           {ctrl}
         </div>
       </nav>

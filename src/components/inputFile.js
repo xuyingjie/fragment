@@ -1,5 +1,5 @@
-import {upload} from './tools/tool';
-import * as crypto from './tools/crypto';
+import {upload} from '../utils/http';
+import * as crypto from '../utils/crypto';
 
 export class InputFile extends React.Component {
 
