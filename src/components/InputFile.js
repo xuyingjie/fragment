@@ -2,7 +2,7 @@ import React from 'react';
 import {upload} from '../utils/http';
 import * as crypto from '../utils/crypto';
 
-export class InputFile extends React.Component {
+export default class InputFile extends React.Component {
 
   constructor(props) {
     super(props);

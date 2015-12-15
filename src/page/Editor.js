@@ -1,9 +1,9 @@
 import React from 'react';
-import {InputFile} from '../components/inputFile';
+import InputFile from '../components/InputFile';
 import {get} from '../utils/http';
 import {insertText} from '../utils/others';
 
-export class Editor extends React.Component {
+export default class Editor extends React.Component {
 
   constructor(props) {
     super(props);

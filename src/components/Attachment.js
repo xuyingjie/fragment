@@ -2,7 +2,7 @@ import React from 'react';
 import {get} from '../utils/http';
 import {icons} from '../utils/others';
 
-export class Attachment extends React.Component {
+export default class Attachment extends React.Component {
 
   constructor(props) {
     super(props);

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export class Contents extends React.Component {
+export default class Contents extends React.Component {
 
   render() {
     let contents = this.props.contents.slice(0).reverse();

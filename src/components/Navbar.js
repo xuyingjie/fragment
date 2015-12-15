@@ -2,7 +2,7 @@ import React from 'react';
 
 const title = '#';
 
-export class Navbar extends React.Component {
+export default class Navbar extends React.Component {
 
   handleLogoutClick(e) {
     e.preventDefault();

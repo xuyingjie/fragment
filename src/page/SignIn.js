@@ -1,7 +1,7 @@
 import React from 'react';
 import {get} from '../utils/http';
 
-export class SignIn extends React.Component {
+export default class SignIn extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();

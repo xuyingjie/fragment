@@ -1,24 +1,16 @@
-'use strict';
-
 import * as crypto from './crypto';
 
 const bucket = 'fragment';
 
 // or use Promise
-export function get(opts) {
-
-  var xhr = new XMLHttpRequest();
+export function get({ key, passwd, iv, arrayBuffer, progress, success }) {
+  const xhr = new XMLHttpRequest();
 
   xhr.onload = () => {
     if (xhr.readyState === 4) {
       if (xhr.status >= 200 && xhr.status < 300 || xhr.status === 304) {
-
-        var passwd, iv;
-        if (opts.passwd) {
-          passwd = opts.passwd;
-          iv = opts.iv;
-        } else {
-          var user = JSON.parse(localStorage.user);
+        if (!passwd) {
+          const user = JSON.parse(localStorage.user);
           passwd = user.passwd;
           iv = user.iv;
         }
@@ -28,25 +20,24 @@ export function get(opts) {
           iv,
           data: xhr.response,
           callback: decrypted => {
-            if (opts.arrayBuffer) {
-              opts.success(decrypted);
+            if (arrayBuffer) {
+              success(decrypted);
             } else {
-              var str = crypto.arrayBufferToStr(decrypted);
-              opts.success(JSON.parse(str));
+              const str = crypto.arrayBufferToStr(decrypted);
+              success(JSON.parse(str));
             }
           },
         });
-
       }
     }
   };
-  if (opts.progress) {
-    xhr.onprogress = function(e) {
+  if (progress) {
+    xhr.onprogress = e => {
       if (e.lengthComputable) {
         if (e.loaded === e.total) {
-          opts.progress.style.width = '0%';
+          progress.style.width = '0%';
         } else {
-          opts.progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
+          progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
         }
       }
     };
@@ -57,7 +48,7 @@ export function get(opts) {
   // var signature = crypto.b64_hmac_sha1(user.SK, StringToSign);
   // var s = `?AWSAccessKeyId=${user.AK}&Expires=${Date.now() + 3600000}&Signature=${signature}`;
 
-  xhr.open('GET', `http://${bucket}.obs.cn-north-1.myhwclouds.com/${opts.key}`, true);
+  xhr.open('GET', `http://${bucket}.obs.cn-north-1.myhwclouds.com/${key}`, true);
 
   // in firefox xhr.responseType must behind xhr.open
   xhr.responseType = 'arraybuffer';
@@ -65,52 +56,52 @@ export function get(opts) {
 }
 
 
-export function upload(opts) {
+export function upload({ key, data, passwd, arrayBuffer, progress, success }) {
+  const user = JSON.parse(localStorage.user);
+  const iv = user.iv;
+  if (!passwd) {
+    passwd = user.passwd;
+  }
 
-  var user = JSON.parse(localStorage.user);
-  var passwd = opts.passwd ? opts.passwd : user.passwd;
-  var iv = user.iv;
-
-  if (!opts.arrayBuffer) {
-    opts.data = crypto.strToArrayBuffer(opts.data);
+  if (!arrayBuffer) {
+    data = crypto.strToArrayBuffer(data);
   }
 
   crypto.encrypt({
     passwd,
     iv,
-    data: opts.data,
+    data,
     callback: encrypted => {
-
       // new Blob([encList.buffer]) fast than new Blob([encList]) type不是必需的
-      var blob = new Blob([encrypted], {
+      const blob = new Blob([encrypted], {
         type: 'application/octet-stream',
       });
 
-      var AK = user.AK;
-      var SK = user.SK;
+      const AK = user.AK;
+      const SK = user.SK;
 
-      var cache;
-      if (opts.key.match('u/') !== null) {
+      let cache;
+      if (key.match('u/') !== null) {
         cache = 'public,max-age=8640000';
       } else {
         cache = 'no-cache';
       }
 
-      var policyJson = {
+      const policyJson = {
         'expiration': (new Date(Date.now() + 3600000)).toJSON(),
         'conditions': [
-          {'bucket': bucket},
-          {'acl': 'public-read'},
-          {'Content-Type': 'application/octet-stream'},
-          {'Cache-Control': cache},
-          ['eq', '$key', opts.key],
+          { bucket },
+          { 'acl': 'public-read' },
+          { 'Content-Type': 'application/octet-stream' },
+          { 'Cache-Control': cache },
+          ['eq', '$key', key],
         ],
       };
-      var policy = btoa(JSON.stringify(policyJson));
-      var signature = crypto.b64_hmac_sha1(SK, policy);
+      const policy = btoa(JSON.stringify(policyJson));
+      const signature = crypto.b64_hmac_sha1(SK, policy);
 
-      var formData = new FormData();
-      formData.append('key', opts.key);
+      const formData = new FormData();
+      formData.append('key', key);
       formData.append('acl', 'public-read');
       formData.append('Content-Type', 'application/octet-stream');
       formData.append('Cache-Control', cache);
@@ -121,15 +112,15 @@ export function upload(opts) {
       // 文件或文本内容，必须是表单中的最后一个域。
       formData.append('file', blob);
 
-      var xhr = new XMLHttpRequest();
+      const xhr = new XMLHttpRequest();
 
-      if (opts.progress) {
-        xhr.upload.onprogress = function(e) {
+      if (progress) {
+        xhr.upload.onprogress = e => {
           if (e.lengthComputable) {
             if (e.loaded === e.total) {
-              opts.progress.style.width = '0%';
+              progress.style.width = '0%';
             } else {
-              opts.progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
+              progress.style.width = ((e.loaded / e.total) * 100).toFixed(2) + '%';
             }
           }
         };
@@ -137,8 +128,8 @@ export function upload(opts) {
 
       xhr.onload = () => {
         if (xhr.readyState === 4) {
-          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status == 304) {
-            opts.success();
+          if ((xhr.status >= 200 && xhr.status < 300) || xhr.status === 304) {
+            success();
           }
         }
       };
@@ -147,5 +138,4 @@ export function upload(opts) {
       xhr.send(formData);
     },
   });
-
 }

@@ -1,7 +1,7 @@
 import React from 'react';
 import {upload} from '../utils/http';
 
-export class SignUp extends React.Component {
+export default class SignUp extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();

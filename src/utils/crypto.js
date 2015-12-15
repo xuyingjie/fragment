@@ -1,4 +1,3 @@
-'use strict';
 
 export function timeDiff() {
   return Date.now() + '' + Math.floor(Math.random() * 9000 + 1000);
@@ -9,9 +8,8 @@ export function arrayBufferToStr(buf) {
 }
 
 export function strToArrayBuffer(str) {
-
-  var buf = new ArrayBuffer(str.length * 2);
-  var bufView = new Uint16Array(buf);
+  const buf = new ArrayBuffer(str.length * 2);
+  const bufView = new Uint16Array(buf);
   for (let i = 0, strLen = str.length; i < strLen; i++) {
     bufView[i] = str.charCodeAt(i);
   }
@@ -24,17 +22,16 @@ export function strToArrayBuffer(str) {
 // or use Promise
 //
 export function importKey(str, callback) {
-
   window.crypto.subtle.importKey(
-    'raw', //can be 'jwk' or 'raw'
-    strToArrayBuffer(str), { //this is the algorithm options
+    'raw', // can be 'jwk' or 'raw'
+    strToArrayBuffer(str), { // this is the algorithm options
       name: 'AES-GCM',
     },
-    false, //whether the key is extractable (i.e. can be used in exportKey)
-    ['encrypt', 'decrypt'] //can 'encrypt', 'decrypt', 'wrapKey', or 'unwrapKey'
+    false, // whether the key is extractable (i.e. can be used in exportKey)
+    ['encrypt', 'decrypt'] // can 'encrypt', 'decrypt', 'wrapKey', or 'unwrapKey'
   )
     .then(key => {
-      //returns the symmetric key
+      // returns the symmetric key
       callback(key);
     })
     .catch(err => {
@@ -42,29 +39,28 @@ export function importKey(str, callback) {
     });
 }
 
-export function encrypt(opt) {
-
-  importKey(opt.passwd, key => {
+export function encrypt({ passwd, iv, data, callback }) {
+  importKey(passwd, key => {
     window.crypto.subtle.encrypt({
       name: 'AES-GCM',
 
-      //Don't re-use initialization vectors!
-      //Always generate a new iv every time your encrypt!
-      //Recommended to use 12 bytes length
-      iv: strToArrayBuffer(opt.iv),
+      // Don't re-use initialization vectors!
+      // Always generate a new iv every time your encrypt!
+      // Recommended to use 12 bytes length
+      iv: strToArrayBuffer(iv),
 
-      //Additional authentication data (optional)
+      // Additional authentication data (optional)
       // additionalData: ArrayBuffer,
 
-      //Tag length (optional)
-      tagLength: 128, //can be 32, 64, 96, 104, 112, 120 or 128 (default)
+      // Tag length (optional)
+      tagLength: 128, // can be 32, 64, 96, 104, 112, 120 or 128 (default)
     },
-      key, //from generateKey or importKey above
-      opt.data //ArrayBuffer of data you want to encrypt
+      key, // from generateKey or importKey above
+      data // ArrayBuffer of data you want to encrypt
     )
       .then(encrypted => {
-        //returns an ArrayBuffer containing the encrypted data
-        opt.callback(encrypted);
+        // returns an ArrayBuffer containing the encrypted data
+        callback(encrypted);
       })
       .catch(err => {
         console.error(err);
@@ -72,21 +68,20 @@ export function encrypt(opt) {
   });
 }
 
-export function decrypt(opt) {
-
-  importKey(opt.passwd, key => {
+export function decrypt({ passwd, iv, data, callback }) {
+  importKey(passwd, key => {
     window.crypto.subtle.decrypt({
       name: 'AES-GCM',
-      iv: strToArrayBuffer(opt.iv), //The initialization vector you used to encrypt
+      iv: strToArrayBuffer(iv), // The initialization vector you used to encrypt
       // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
-      tagLength: 128, //The tagLength you used to encrypt (if any)
+      tagLength: 128, // The tagLength you used to encrypt (if any)
     },
-      key, //from generateKey or importKey above
-      opt.data //ArrayBuffer of the data
+      key, // from generateKey or importKey above
+      data // ArrayBuffer of the data
     )
       .then(decrypted => {
-        //returns an ArrayBuffer containing the decrypted data
-        opt.callback(decrypted);
+        // returns an ArrayBuffer containing the decrypted data
+        callback(decrypted);
       })
       .catch(err => {
         console.error(err);

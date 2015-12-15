@@ -2,7 +2,7 @@ import React from 'react';
 import {get, upload} from '../utils/http';
 import * as crypto from '../utils/crypto';
 
-export class Tasks extends React.Component {
+export default class Tasks extends React.Component {
 
   constructor(props) {
     super(props);

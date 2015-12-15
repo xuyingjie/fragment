@@ -1,9 +1,9 @@
 import React from 'react';
 import marked from 'marked';
-import {Attachment} from '../components/attachment';
+import Attachment from '../components/Attachment';
 import {get} from '../utils/http';
 
-export class Section extends React.Component {
+export default class Section extends React.Component {
 
   constructor(props) {
     super(props);

@@ -1,46 +1,55 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import {Section} from './page/section';
-import {Editor} from './page/editor';
-import {SignIn} from './page/signin';
-import {SignUp} from './page/signup';
-import {Tasks} from './page/tasks';
-import {Contents} from './page/contents';
-import {Navbar} from './components/navbar';
+import Section from './page/Section';
+import Editor from './page/Editor';
+import SignIn from './page/SignIn';
+import SignUp from './page/SignUp';
+import Tasks from './page/Tasks';
+import Contents from './page/Contents';
+import Navbar from './components/Navbar';
 
-import {get, upload} from './utils/http';
+import { get, upload } from './utils/http';
 import * as crypto from './utils/crypto';
 
 class Root extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {contents: [], auth: false, url: location.hash, erase: false};
+    this.state = {
+      contents: [],
+      auth: false,
+      url: location.hash,
+      erase: false,
+    };
   }
 
-  cache(){
+  componentDidMount() {
+    this.auth();
+    window.onhashchange = () => this.setState({ url: location.hash });
+  }
+
+  cache() {
     get({
       key: 'contents',
       success: data => {
-        this.setState({contents: data.contents});
+        this.setState({ contents: data.contents });
       },
     });
   }
 
   // post to database server
-  handleUploadSetToServer(data){
+  handleUploadSetToServer(data) {
     if (data.title !== '') {
-
-      let contents = this.state.contents;
+      const contents = this.state.contents;
       let uploadContents = true;
 
       data.timestamp = Date.now();
 
-      let t = {
+      const t = {
         id: data.id,
         title: data.title,
-        // timestamp: data.timestamp,
+      // timestamp: data.timestamp,
       };
 
       if (t.id === '') {
@@ -48,7 +57,7 @@ class Root extends React.Component {
         data.id = t.id;
         contents.push(t);
       } else {
-        for (let i in contents) {
+        for (const i in contents) {
           if (t.id === contents[i].id) {
             if (t.title !== contents[i].title) {
               contents[i] = t;
@@ -59,27 +68,25 @@ class Root extends React.Component {
         }
       }
 
-      this.setState({contents: contents});
+      this.setState({ contents });
 
       upload({
         key: 'set/' + t.id,
-        data: JSON.stringify({section: data}),
+        data: JSON.stringify({ section: data }),
         success: () => {
-
           if (uploadContents) {
             upload({
               key: 'contents',
-              data: JSON.stringify({contents: contents}),
+              data: JSON.stringify({ contents }),
               success: () => {
-                location.href='#/t/'+ t.id;
+                location.href = '#/t/' + t.id;
               },
             });
           } else {
-            location.href='#/t/'+ t.id;
+            location.href = '#/t/' + t.id;
           }
         },
       });
-
     }
   }
 
@@ -88,43 +95,38 @@ class Root extends React.Component {
       key,
       data: 'x',
       success: () => {
-        this.setState({erase: true});
+        this.setState({ erase: true });
       },
     });
   }
 
   handleEraseEnd() {
-    this.setState({erase: false});
+    this.setState({ erase: false });
   }
 
   handleLogin() {
-    this.setState({auth: true});
+    this.setState({ auth: true });
     this.cache();
-    location.href='#/';
+    location.href = '#/';
   }
 
   handleLogout() {
     localStorage.removeItem('user');
-    this.setState({auth: false});
-    this.setState({contents: []});
+    this.setState({ auth: false });
+    this.setState({ contents: [] });
     location.replace('#/login');
   }
 
   auth() {
     if (localStorage.user) {
-      this.setState({auth: true});
+      this.setState({ auth: true });
       this.cache();
     } else {
-      location.href='#/login';
+      location.href = '#/login';
     }
   }
 
-  componentDidMount() {
-    this.auth();
-    window.onhashchange = () => this.setState({ url : location.hash });
-  }
-
-  render(){
+  render() {
     let page;
     switch (this.state.url.split('/')[1]) {
       case 't':
