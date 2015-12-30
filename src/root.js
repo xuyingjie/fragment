@@ -5,7 +5,6 @@ import Section from './page/Section';
 import Editor from './page/Editor';
 import SignIn from './page/SignIn';
 import SignUp from './page/SignUp';
-import Tasks from './page/Tasks';
 import Contents from './page/Contents';
 import Navbar from './components/Navbar';
 
@@ -141,9 +140,6 @@ class Root extends React.Component {
         break;
       case 'join':
         page = <SignUp {...this.state} />;
-        break;
-      case 'tasks':
-        page = <Tasks {...this.state} />;
         break;
       default:
         page = <Contents {...this.state} />;

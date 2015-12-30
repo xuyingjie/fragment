@@ -1,8 +1,8 @@
 body {
-  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, "Open Sans", 方正悠黑简体, 汉仪旗黑, sans-serif;
+  font-family: "Helvetica Neue", Helvetica, Roboto, Arial, "Open Sans", 方正悠黑, 汉仪旗黑, sans-serif;
 }
 code {
-  font-family: "Source Code Pro", Consolas, "Liberation Mono", Courier, 方正悠黑简体, monospace;
+  font-family: "Source Code Pro", Consolas, "Liberation Mono", Courier, 方正悠黑, monospace;
 }
 input[type=text], textarea, input[type=text]:focus, textarea:focus {
   border-width: 0 0 1px;
@@ -15,9 +15,6 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
 }
 .button {
   border: none;
-}
-.button.float-right {
-  margin-right: 0;
 }
 
 .x-bar {
