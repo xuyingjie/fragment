@@ -1,23 +1,23 @@
-import React from 'react';
-import {upload} from '../utils/http';
+import React from 'react'
+import {upload} from '../utils/http'
 
 export default class SignUp extends React.Component {
 
   handleSubmit(e) {
-    e.preventDefault();
+    e.preventDefault()
 
-    let name = this.refs.name.value;
-    let secret = this.refs.secret.value;
-    let passwd = this.refs.passwd.value;
-    let iv = this.refs.iv.value;
-    let AK = this.refs.AK.value;
-    let SK = this.refs.SK.value;
+    let name = this.refs.name.value
+    let secret = this.refs.secret.value
+    let passwd = this.refs.passwd.value
+    let iv = this.refs.iv.value
+    let AK = this.refs.AK.value
+    let SK = this.refs.SK.value
 
     let user = {
       AK, SK, passwd, iv,
-    };
+    }
 
-    localStorage.user = JSON.stringify(user);
+    localStorage.user = JSON.stringify(user)
 
     upload({
       key: name,
@@ -26,9 +26,9 @@ export default class SignUp extends React.Component {
       }),
       passwd: secret,
       success: () => {
-        console.log('Success!!!');
+        console.log('Success!!!')
       },
-    });
+    })
   }
 
   render() {
@@ -60,6 +60,6 @@ export default class SignUp extends React.Component {
         </label>
         <button type="submit" className="button">Sign up</button>
       </form>
-    );
+    )
   }
 }

@@ -55,16 +55,56 @@ input[type=text], textarea, input[type=text]:focus, textarea:focus {
   background-color: #cacaca;
 }
 
-.x-attachment .thumbnail {
-  cursor: pointer;
+.x-image,
+.x-file {
+  display: inline-block;
+  position: relative;
+  height: 28px;
+}
+.x-image .thumbnail {
   margin-bottom: 0;
 }
-.x-attachment .label {
+.x-file .label {
   cursor: pointer;
   position: relative;
   white-space: normal;
 }
-.x-attachment i:last-child, .x-upload i {
+.ctrl {
+  display: flex;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+}
+.ctrl .download, .ctrl .delete {
+  height: 28px;
+  width: 12px;
+  text-align: center;
+  line-height: 28px;
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0);
+  transition: all .5s linear;
+}
+.ctrl .download {
+  background: rgba(119, 119, 119, 0.1);
+}
+.ctrl .delete {
+  background: rgba(236, 88, 64, 0.1);
+
+}
+.ctrl .download:hover {
+  width: 48px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(119, 119, 119, 0.9);
+}
+.ctrl .delete:hover {
+  width: 36px;
+  color: rgba(255, 255, 255, 1);
+  background: rgba(236, 88, 64, 0.9);
+}
+
+.x-file i.progress,
+.x-upload i {
   position: absolute;
   top: 0;
   left: 0;

@@ -1,13 +1,10 @@
 rules:
-  indent: [2, 2, {SwitchCase: 1}]
-  comma-dangle: [2, always-multiline]
+  indent: [1, 2, {SwitchCase: 1}]
+  comma-dangle: [0, always-multiline]
   quotes: [2, single, avoid-escape]
-  linebreak-style:
-    - 2
-    - unix
-  semi:
-    - 2
-    - always
+  linebreak-style: [1, unix]
+  semi: [1, never]
+  no-console: 1
 env:
   es6: true
   browser: true
