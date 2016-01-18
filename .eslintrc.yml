@@ -5,6 +5,7 @@ rules:
   linebreak-style: [1, unix]
   semi: [1, never]
   no-console: 1
+  no-unused-vars: 1
 env:
   es6: true
   browser: true
