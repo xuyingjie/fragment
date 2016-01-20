@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux'
-import { INIT_FRAGMENT, UPDATE_ITEM, NEW_ITEM } from './actions'
+import { INIT_FRAGMENT, UPDATE_ITEM, NEW_ITEM, SIGN_IN, SIGN_OUT, CLEAN, CHANGE_URL } from './actions'
 
 function fragment(state=[], action) {
   switch (action.type) {
@@ -15,13 +15,35 @@ function fragment(state=[], action) {
       })
     case NEW_ITEM:
       return [...state, action.item]
+    case CLEAN:
+      return []
+    default:
+      return state
+  }
+}
+
+function auth(state=false, action) {
+  switch (action.type) {
+    case SIGN_IN:
+      return true
+    case SIGN_OUT:
+      return false
+    default:
+      return state
+  }
+}
+
+function url(state='', action) {
+  switch (action.type) {
+    case CHANGE_URL:
+      return action.url
     default:
       return state
   }
 }
 
 const app = combineReducers({
-  fragment
+  fragment, auth, url
 })
 
 export default app

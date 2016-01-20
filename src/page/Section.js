@@ -1,45 +1,46 @@
 import React from 'react'
 import marked from 'marked'
 import Attachment from '../components/Attachment'
-import {get, upload} from '../utils/http'
 
 export default class Section extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {section: {id: '', title: '', content: ''}}
+    this.state = { id: '', title: '', text: '' }
   }
 
   componentDidMount() {
     let id = location.hash.slice(4)
+    this.setState({id})
+    this.props.getItem(id)
+  }
 
-    get({
-      key: 'set/' + id,
-      success: data => {
-        this.setState({section: data.section})
-      },
+  componentWillReceiveProps(nextProps) {
+    nextProps.fragment.forEach(el => {
+      if (this.state.id === el.id) {
+        this.setState({title: el.title})
+        if (el.text) this.setState({text: el.text})
+      }
     })
   }
 
-  handleErase(key) {
-    upload({
-      key,
-      data: 'x',
-      success: () => {
-        let c = this.state.section
-        let reg = new RegExp('!\\[.*?,.*?,.*?,' + key + ']')
-        c.content = c.content.replace(reg, '')
-
-        this.props.uploadSetToServer(c)
-        this.setState({section: c})
-      },
-    })
-  }
+  // handleErase(key) {
+  //   upload({
+  //     key,
+  //     data: 'x',
+  //     success: () => {
+  //       let c = this.state.section
+  //       let reg = new RegExp('!\\[.*?,.*?,.*?,' + key + ']')
+  //       c.content = c.content.replace(reg, '')
+  //
+  //       this.props.uploadSetToServer(c)
+  //       this.setState({section: c})
+  //     },
+  //   })
+  // }
 
   render() {
-    let x = this.state.section
-
-    let parts = x.content.split(/(!\[.*?,.*?,.*?,.*?\])/)
+    let parts = this.state.text.split(/(!\[.*?,.*?,.*?,.*?\])/)
     for (let i in parts) {
       if (i % 2 === 0) {
         if (parts[i] !== '') {
@@ -64,7 +65,7 @@ export default class Section extends React.Component {
 
     return (
       <article>
-        <h3><a href={'#/e/' + x.id} title="编辑">{x.title}</a></h3>
+        <h3><a href={'#/e/' + this.state.id} title="编辑">{this.state.title}</a></h3>
         {parts}
       </article>
     )

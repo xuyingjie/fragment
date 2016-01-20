@@ -1,17 +1,25 @@
-import { createStore } from 'redux'
+import React from 'react'
+import { render } from 'react-dom'
+import { createStore, applyMiddleware } from 'redux'
+import { Provider } from 'react-redux'
+import thunk from 'redux-thunk'
 import app from './reducers'
 
-import { show, add } from './actions'
+import Root from './page/Root.js'
 
-let store = createStore(app)
+// create a store that has redux-thunk middleware enabled
+const createStoreWithMiddleware = applyMiddleware(
+  thunk
+)(createStore)
+export let store = createStoreWithMiddleware(app)
 
-
-// Test
 store.subscribe(() =>
   console.log(store.getState())
 )
 
-store.dispatch(add({
-  id: Date.now(),
-  text: 'hello world'
-}, true))
+render(
+  <Provider store={store}>
+    <Root />
+  </Provider>,
+  document.getElementById('wrapper')
+)

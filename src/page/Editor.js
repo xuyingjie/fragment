@@ -1,42 +1,30 @@
 import React from 'react'
 import InputFile from '../components/InputFile'
-import {get} from '../utils/http'
-import {insertText} from '../utils/others'
+import { insertText } from '../utils/others'
 
 export default class Editor extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {section: {id: '', title: '', content: ''}}
+    this.state = { id: '', title: '', text: '' }
   }
 
   componentDidMount() {
-    let id = location.hash.slice(4)
-
+    let id = location.hash.slice(4) ? location.hash.slice(4) : ''
+    this.setState({id})
     if (id) {
-      get({
-        key: 'set/' + id,
-        success: data => {
-          this.setState({section: data.section})
-        },
+      this.props.fragment.forEach(el => {
+        if (id === el.id) {
+          this.setState({title: el.title})
+          this.setState({text: el.text})
+        }
       })
     }
   }
 
-  handleTitleChange(event) {
-    let x = this.state.section
-    x.title = event.target.value
-    this.setState({section: x})
-  }
-  handleContentChange(event) {
-    let x = this.state.section
-    x.content = event.target.value
-    this.setState({section: x})
-  }
-
   uploadSetToServer(e) {
     e.preventDefault()
-    this.props.uploadSetToServer(this.state.section)
+    if (this.state.title) this.props.uploadSetToServer(this.state)
   }
 
   uploadFileSuccess(key, file) {
@@ -51,11 +39,12 @@ export default class Editor extends React.Component {
   }
 
   render() {
-    let x = this.state.section
     return (
       <form onSubmit={this.uploadSetToServer.bind(this)}>
-        <input type="text" placeholder="key" onChange={this.handleTitleChange.bind(this)} value={x.title} />
-        <textarea rows="24" placeholder="value" onChange={this.handleContentChange.bind(this)} value={x.content} ref="content" />
+        <input type="text" placeholder="key" ref="title" value={this.state.title}
+          onChange={event => this.setState({title:event.target.value})} />
+        <textarea rows="24" placeholder="value" ref="text" value={this.state.text}
+          onChange={event => this.setState({text:event.target.value})} />
         <InputFile uploadFileSuccess={this.uploadFileSuccess.bind(this)} />
         <button type="submit" className="small button float-right">Save</button>
       </form>

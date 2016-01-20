@@ -19,16 +19,10 @@ export default class SignUp extends React.Component {
 
     localStorage.user = JSON.stringify(user)
 
-    upload({
-      key: name,
-      data: JSON.stringify({
-        user: user,
-      }),
-      passwd: secret,
-      success: () => {
+    upload({ key:name, data:JSON.stringify(user), passwd:secret })
+      .then(() => {
         console.log('Success!!!')
-      },
-    })
+      })
   }
 
   render() {
