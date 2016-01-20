@@ -21,70 +21,78 @@ export function strToArrayBuffer(str) {
 // WebCryptoAPI
 // or use Promise
 //
-export function importKey(str, callback) {
-  window.crypto.subtle.importKey(
-    'raw', // can be 'jwk' or 'raw'
-    strToArrayBuffer(str), { // this is the algorithm options
-      name: 'AES-GCM',
-    },
-    false, // whether the key is extractable (i.e. can be used in exportKey)
-    ['encrypt', 'decrypt'] // can 'encrypt', 'decrypt', 'wrapKey', or 'unwrapKey'
-  )
-    .then(key => {
-      // returns the symmetric key
-      callback(key)
-    })
-    .catch(err => {
-      console.error(err)
-    })
-}
-
-export function encrypt({ passwd, iv, data, callback }) {
-  importKey(passwd, key => {
-    window.crypto.subtle.encrypt({
-      name: 'AES-GCM',
-
-      // Don't re-use initialization vectors!
-      // Always generate a new iv every time your encrypt!
-      // Recommended to use 12 bytes length
-      iv: strToArrayBuffer(iv),
-
-      // Additional authentication data (optional)
-      // additionalData: ArrayBuffer,
-
-      // Tag length (optional)
-      tagLength: 128, // can be 32, 64, 96, 104, 112, 120 or 128 (default)
-    },
-      key, // from generateKey or importKey above
-      data // ArrayBuffer of data you want to encrypt
+export function importKey(str) {
+  return new Promise((resolve, reject) => {
+    window.crypto.subtle.importKey(
+      'raw', // can be 'jwk' or 'raw'
+      strToArrayBuffer(str), { // this is the algorithm options
+        name: 'AES-GCM',
+      },
+      false, // whether the key is extractable (i.e. can be used in exportKey)
+      ['encrypt', 'decrypt'] // can 'encrypt', 'decrypt', 'wrapKey', or 'unwrapKey'
     )
-      .then(encrypted => {
-        // returns an ArrayBuffer containing the encrypted data
-        callback(encrypted)
+      .then(key => {
+        // returns the symmetric key
+        resolve(key)
       })
       .catch(err => {
-        console.error(err)
+        reject(err)
       })
   })
 }
 
-export function decrypt({ passwd, iv, data, callback }) {
-  importKey(passwd, key => {
-    window.crypto.subtle.decrypt({
-      name: 'AES-GCM',
-      iv: strToArrayBuffer(iv), // The initialization vector you used to encrypt
-      // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
-      tagLength: 128, // The tagLength you used to encrypt (if any)
-    },
-      key, // from generateKey or importKey above
-      data // ArrayBuffer of the data
-    )
-      .then(decrypted => {
-        // returns an ArrayBuffer containing the decrypted data
-        callback(decrypted)
+export function encrypt(passwd, iv, data) {
+  return new Promise((resolve, reject) => {
+    importKey(passwd)
+      .then(key => {
+        window.crypto.subtle.encrypt({
+          name: 'AES-GCM',
+
+          // Don't re-use initialization vectors!
+          // Always generate a new iv every time your encrypt!
+          // Recommended to use 12 bytes length
+          iv: strToArrayBuffer(iv),
+
+          // Additional authentication data (optional)
+          // additionalData: ArrayBuffer,
+
+          // Tag length (optional)
+          tagLength: 128, // can be 32, 64, 96, 104, 112, 120 or 128 (default)
+        },
+          key, // from generateKey or importKey above
+          data // ArrayBuffer of data you want to encrypt
+        )
+          .then(encrypted => {
+            // returns an ArrayBuffer containing the encrypted data
+            resolve(encrypted)
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
-      .catch(err => {
-        console.error(err)
+  })
+}
+
+export function decrypt(passwd, iv, data) {
+  return new Promise((resolve, reject) => {
+    importKey(passwd)
+      .then(key => {
+        window.crypto.subtle.decrypt({
+          name: 'AES-GCM',
+          iv: strToArrayBuffer(iv), // The initialization vector you used to encrypt
+          // additionalData: ArrayBuffer, //The addtionalData you used to encrypt (if any)
+          tagLength: 128, // The tagLength you used to encrypt (if any)
+        },
+          key, // from generateKey or importKey above
+          data // ArrayBuffer of the data
+        )
+          .then(decrypted => {
+            // returns an ArrayBuffer containing the decrypted data
+            resolve(decrypted)
+          })
+          .catch(err => {
+            reject(err)
+          })
       })
   })
 }
