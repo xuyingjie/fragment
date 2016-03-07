@@ -1,28 +1,23 @@
 import React from 'react'
-import {upload} from '../utils/http'
+import {upload} from '../tools'
 
-export default class SignUp extends React.Component {
+export default class Join extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
 
-    let name = this.refs.name.value
-    let secret = this.refs.secret.value
-    let passwd = this.refs.passwd.value
-    let iv = this.refs.iv.value
-    let AK = this.refs.AK.value
-    let SK = this.refs.SK.value
+    var name = this.refs.name.value
+    var secret = this.refs.secret.value
+    var passwd = this.refs.passwd.value
+    var AK = this.refs.AK.value
+    var SK = this.refs.SK.value
 
-    let user = {
-      AK, SK, passwd, iv,
-    }
-
+    var user = {AK, SK, passwd}
     localStorage.user = JSON.stringify(user)
 
-    upload({ key:name, data:JSON.stringify(user), passwd:secret })
-      .then(() => {
-        console.log('Success!!!')
-      })
+    upload(name, user, {passwd:secret}).then(() => {
+      console.log('success')
+    })
   }
 
   render() {
@@ -41,10 +36,6 @@ export default class SignUp extends React.Component {
           <input type="text" ref="passwd"/>
         </label>
         <label>
-          iv
-          <input type="text" ref="iv"/>
-        </label>
-        <label>
           AK
           <input type="text" ref="AK"/>
         </label>
@@ -52,7 +43,7 @@ export default class SignUp extends React.Component {
           SK
           <input type="text" ref="SK"/>
         </label>
-        <button type="submit" className="button">Sign up</button>
+        <input type="submit" value="注册" />
       </form>
     )
   }

@@ -1,5 +1,5 @@
 module.exports = {
-  entry: "./src/index.js",
+  entry: "./components/Root.jsx",
   output: {
     path: __dirname,
     filename: "build.js"
@@ -7,9 +7,10 @@ module.exports = {
   module: {
     loaders: [
       {
-        test: /\.js$/,
+        test: /\.js|\.jsx$/,
+        exclude: /node_modules/,
         loader: 'babel?presets[]=react,presets[]=es2015'
       }
     ]
   }
-};
+}
