@@ -1,7 +1,7 @@
 import React from 'react'
 import {upload} from '../tools'
 
-export default class Join extends React.Component {
+class Join extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault()
@@ -48,3 +48,5 @@ export default class Join extends React.Component {
     )
   }
 }
+
+export default Join

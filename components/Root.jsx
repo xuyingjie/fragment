@@ -9,9 +9,11 @@ import Login from './Login.jsx'
 import Join from './Join.jsx'
 import {privacy, get, upload} from '../tools'
 
-var Root = React.createClass({
-  getInitialState() {
-    return {
+class Root extends React.Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
       list: [],
       set: [],
       auth: false,
@@ -19,13 +21,30 @@ var Root = React.createClass({
       item: {id: 0, title: '', text: '', lastChange: 0},
       loadAll: false,
     }
-  },
+
+    this.login = this.login.bind(this)
+    this.hashChange = this.hashChange.bind(this)
+    this.loadSet = this.loadSet.bind(this)
+    this.save = this.save.bind(this)
+  }
+
+  login(name, passwd) {
+    get(name, {passwd}).then(data => {
+      localStorage.user = JSON.stringify(data)
+      this.setState({auth:true})
+
+      if (privacy) {
+        this.loadList()
+      }
+      location.replace('#/')
+    })
+  }
 
   loadList() {
     get('list').then(out => {
       this.setState({list: out.list})
     })
-  },
+  }
 
   loadItem(id) {
     let out = this.state.set.filter(item => item.id === id)
@@ -37,7 +56,7 @@ var Root = React.createClass({
     } else {
       this.setState({item: out[0]})
     }
-  },
+  }
 
   loadSet() {
     if (this.state.list.length > 0 && !this.state.loadAll) {
@@ -46,16 +65,7 @@ var Root = React.createClass({
       })
       this.setState({loadAll: true})
     }
-  },
-
-  login(name, passwd) {
-    get(name, {passwd}).then(data => {
-      localStorage.user = JSON.stringify(data)
-      this.setState({auth:true})
-      if (privacy) this.loadList()
-      location.replace('#/')
-    })
-  },
+  }
 
   save(item) {
     var l = [...this.state.list]
@@ -92,7 +102,7 @@ var Root = React.createClass({
         location.replace(`#/u/${item.id}`)
       }
     })
-  },
+  }
 
   hashChange() {
     var hash = location.hash.split('/')
@@ -115,20 +125,22 @@ var Root = React.createClass({
       default:
         break
     }
-  },
+  }
 
   componentDidMount() {
     this.hashChange()
     window.onhashchange = this.hashChange
 
-    if (localStorage.user) this.setState({auth:true})
+    if (localStorage.user) {
+      this.setState({auth:true})
+    }
 
     if (localStorage.user || !privacy) {
       this.loadList()
     } else {
       location.assign('#/i')
     }
-  },
+  }
 
   render() {
     var {url, list, set, item, auth} = this.state
@@ -155,15 +167,17 @@ var Root = React.createClass({
         page = <Contents list={list} />
     }
 
-    return <div>
-      <Navbar auth={auth} />
-      <div className="page-content">
-        <div className="wrapper">
-          {page}
+    return (
+      <div>
+        <Navbar auth={auth} />
+        <div className="page-content">
+          <div className="wrapper">
+            {page}
+          </div>
         </div>
       </div>
-    </div>
+    )
   }
-})
+}
 
 ReactDOM.render(<Root />, document.getElementById('root'))

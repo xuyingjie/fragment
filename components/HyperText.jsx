@@ -1,23 +1,16 @@
 import React from 'react'
 import {get, getSrc} from '../tools'
 
-export default class HyperText extends React.Component {
+class HyperText extends React.Component {
 
   constructor(props) {
     super(props)
-    this.state = {url: ''}
+    this.state = { url: '' }
     this.download = this.download.bind(this)
   }
 
-  componentDidMount() {
-    var {type,id} = this.props.data
-    if (type.match(/jpeg|icon|png|gif|svg/)){
-      getSrc(type,id).then(url => this.setState({url}))
-    }
-  }
-
   download() {
-    var {name,type,id} = this.props.data
+    var {name, type, id} = this.props.data
 
     get(`file/${id}`, {file:true}).then(data => {
       var blob = new Blob([data], {type})
@@ -35,8 +28,15 @@ export default class HyperText extends React.Component {
     })
   }
 
+  componentDidMount() {
+    var {type, id} = this.props.data
+    if (type.match(/jpeg|icon|png|gif|svg/)){
+      getSrc(type,id).then(url => this.setState({url}))
+    }
+  }
+
   render() {
-    var {name,size,type} = this.props.data
+    var {name, size, type} = this.props.data
     var out = (
       <p>
         <strong>{`${name} ${size} `}</strong>
@@ -50,3 +50,5 @@ export default class HyperText extends React.Component {
     return out
   }
 }
+
+export default HyperText
