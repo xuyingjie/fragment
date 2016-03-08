@@ -61,6 +61,7 @@ var Root = React.createClass({
     var l = [...this.state.list]
     var s = [...this.state.set]
 
+    item.lastChange = Date.now()
     var sub = {id: item.id, title: item.title}
 
     var newList = false
@@ -104,10 +105,12 @@ var Root = React.createClass({
         break
       case 'o':
         localStorage.removeItem('user')
-        this.setState({list:[]})
-        this.setState({set:[]})
         this.setState({auth:false})
-        location.assign('#/i')
+        if (privacy) {
+          this.setState({list:[]})
+          this.setState({set:[]})
+          location.assign('#/i')
+        }
         break
       default:
         break
@@ -140,10 +143,10 @@ var Root = React.createClass({
         page = <Editor item={item} save={this.save} />
         break
       case 'u':
-        page = <Article item={item} />
+        page = <Article item={item} auth={auth} />
         break
       case 's':
-        page = <Search set={set} loadSet={this.loadSet} />
+        page = <Search set={set} loadSet={this.loadSet} auth={auth} />
         break
       case 'join':
         page = <Join />

@@ -27,7 +27,7 @@ export default React.createClass({
   render() {
     return <div className="search">
       <input type="text" onChange={this.filter} />
-      {this.state.set.map(item => <Article key={item.id} item={item} />)}
+      {this.state.set.map(item => <Article key={item.id} item={item} auth={this.props.auth} />)}
     </div>
   }
 })

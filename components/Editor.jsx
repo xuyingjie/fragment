@@ -16,7 +16,6 @@ export default React.createClass({
   handleSave(e) {
     e.preventDefault()
     if (this.state.item.title) {
-      this.itemChange({lastChange: Date.now()})
       this.erase(this.props.item.text, this.state.item.text)
       this.props.save(this.state.item)
     }

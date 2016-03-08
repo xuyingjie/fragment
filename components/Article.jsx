@@ -25,12 +25,15 @@ export default (props) => {
     }
   })
 
+  var edit = []
+  if (props.auth) edit = <a href={`#/e/${id}`}> 编辑</a>
+
   return <article className="post">
     <header className="post-header">
       <h1 className="post-title">{title}</h1>
       <p className="post-meta">
         {new Date(lastChange).toDateString()}
-        <a href={`#/e/${id}`}> 编辑</a>
+        {edit}
       </p>
     </header>
     {out}
