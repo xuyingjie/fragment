@@ -1,18 +1,8 @@
-import AES from 'crypto-js/aes'
-import encUtf8 from 'crypto-js/enc-utf8'
-import encBase64 from 'crypto-js/enc-base64'
-import HmacSHA1 from 'crypto-js/hmac-sha1'
-
 const bucket = 'whitehairpin'
 export const privacy = true
 
-const url = `http://${bucket}.oss-cn-beijing.aliyuncs.com`
-const postUrl = `http://${bucket}.oss-cn-beijing.aliyuncs.com`
+const url = `https://${bucket}.oss-cn-beijing.aliyuncs.com`
 const cdn = `http://${bucket}.img-cn-beijing.aliyuncs.com`
-
-// const url = `http://7xr0k9.com1.z0.glb.clouddn.com` //qn
-// const postUrl = `http://upload.qiniu.com` //qn
-// const cdn = url //qn
 
 export function getSrc(type,id) {
   return new Promise(resolve => {
@@ -23,8 +13,6 @@ export function getSrc(type,id) {
       })
     } else {
       let url = `${cdn}/file/${id}@.jpg`
-      // let url = `${cdn}/file/${id}?imageMogr2/format/jpg` //qn
-
       if (type.match(/gif|svg/i) !== null) url = `${cdn}/file/${id}`
       resolve(url)
     }
@@ -33,8 +21,7 @@ export function getSrc(type,id) {
 
 export function get(key, { file, progress, passwd } = {}) {
   return new Promise(resolve => {
-    // if (key.match(/(img|file)\//) === null) key = `${key}?v=${Date.now()}` //qn
-    if (privacy) {
+    if (privacy || passwd) {
       _get(key, { progress }).then(data => {
         if (!passwd) passwd = JSON.parse(localStorage.user).passwd
         decrypt(passwd, data).then(out => {
@@ -45,9 +32,7 @@ export function get(key, { file, progress, passwd } = {}) {
     } else {
       let responseType = 'json'
       if (file) responseType = 'arraybuffer'
-      if (passwd) responseType = 'text'
       _get(key, { responseType, progress }).then(data => {
-        if (passwd) data = JSON.parse(AES.decrypt(data, passwd).toString(encUtf8))
         resolve(data)
       })
     }
@@ -57,7 +42,7 @@ export function get(key, { file, progress, passwd } = {}) {
 export function upload(key, data, { file, progress, passwd } = {}) {
   return new Promise(resolve => {
     if (!file) data = JSON.stringify(data)
-    if (privacy) {
+    if (privacy || passwd) {
       if (!passwd) passwd = JSON.parse(localStorage.user).passwd
       if (!file) data = strToArrayBuffer(data)
       encrypt(passwd, data).then(out => {
@@ -66,7 +51,6 @@ export function upload(key, data, { file, progress, passwd } = {}) {
         })
       })
     } else {
-      if (passwd) data = AES.encrypt(data, passwd).toString()
       _upload(key, data, { progress }).then(() => {
         resolve()
       })
@@ -100,7 +84,7 @@ function _upload(key, data, { progress } = {}) {
   return new Promise(resolve => {
     form(key, data).then(out => {
       var xhr = new XMLHttpRequest()
-      xhr.open('POST', postUrl)
+      xhr.open('POST', url)
 
       xhr.upload.onprogress = (e) => {
         if (!progress) progress = document.getElementById('progress')
@@ -135,11 +119,6 @@ function form(key, data) {
     ],
   }
 
-  // const policyJson = { //qn
-  //   'scope': bucket + ':' + key,
-  //   'deadline': 3600 + Math.floor(Date.now() / 1000)
-  // }
-
   const policy = btoa(JSON.stringify(policyJson))
 
   return new Promise(resolve => {
@@ -153,8 +132,6 @@ function form(key, data) {
       formData.append('OSSAccessKeyId', AK)
       formData.append('policy', policy)
       formData.append('signature', signature)
-
-      // formData.append('token', `${AK}:${signature.replace(/\+/g, '-').replace(/\//g, '_')}:${policy}`) //qn
 
       // 文件或文本内容，必须是表单中的最后一个域。
       formData.append('file', new Blob([data]))
@@ -258,19 +235,13 @@ function decrypt(passwd, data) {
 
 function b64HmacSHA1(key, str) {
   return new Promise(resolve => {
-    if (privacy) {
-      let keyBuf = new TextEncoder('utf-8').encode(key)
-      let buf = new TextEncoder('utf-8').encode(str)
-      let hmacSha1 = {name: 'hmac', hash: {name: 'sha-1'}}
-      crypto.subtle.importKey('raw', keyBuf, hmacSha1, true, ['sign', 'verify']).then(out => {
-        crypto.subtle.sign(hmacSha1, out, buf).then(result => {
-          resolve(btoa(String.fromCharCode.apply(null, new Uint8Array(result))))
-        })
+    let keyBuf = new TextEncoder('utf-8').encode(key)
+    let buf = new TextEncoder('utf-8').encode(str)
+    let hmacSha1 = {name: 'hmac', hash: {name: 'sha-1'}}
+    crypto.subtle.importKey('raw', keyBuf, hmacSha1, true, ['sign', 'verify']).then(out => {
+      crypto.subtle.sign(hmacSha1, out, buf).then(result => {
+        resolve(btoa(String.fromCharCode.apply(null, new Uint8Array(result))))
       })
-    } else {
-      let hash = HmacSHA1(str, key)
-      let hmac = encBase64.stringify(hash)
-      resolve(hmac)
-    }
+    })
   })
 }

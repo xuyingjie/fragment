@@ -92,7 +92,7 @@ class Root extends React.Component {
     }
     upload(`set/${item.id}`, item).then(() => {
       if (newList) {
-        upload(`list`, { list: l }).then(() => {
+        upload('list', { list: l }).then(() => {
           this.setState({list:l})
           this.setState({set:s})
           location.replace(`#/u/${item.id}`)
