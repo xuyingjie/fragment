@@ -1,0 +1,102 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Roboto, Arial, "Source Sans Pro", "FZYouHei 508R", "DengXian", "Microsoft YaHei", sans-serif;
+    margin: 0;
+}
+
+code, kbd {
+    font-family: Consolas, "Source Code Pro", "Liberation Mono", Courier, monospace;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: "FZYouHei 503L", "DengXian", "Microsoft YaHei", sans-serif;
+    font-weight: 400;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+h2 {
+    font-size: 2.1rem;
+}
+
+blockquote p {
+    color: #555;
+}
+
+pre > code {
+    display: block;
+    overflow-x: auto;
+    padding: 1rem;
+    background: #f9f9f9;
+    margin-bottom: 1.5rem;
+}
+
+textarea {
+    height: 460px;
+}
+
+header {
+    border-bottom: 1px solid #e8e8e8;
+    height: 128px;
+    background-color: #14679e;
+    color: #fefefe;
+    overflow: hidden;
+}
+
+header .wrap {
+    margin-top: 96px;
+}
+
+main {
+    padding: 30px 0 60px;
+    background-color: #fff;
+}
+
+.wrap {
+    max-width: 800px;
+    padding: 0 30px;
+    margin: 0 auto;
+}
+
+.site-title,
+.site-title:hover,
+.site-title:visited {
+    font-size: 18px;
+    color: #fefefe;
+    margin-right: auto;
+}
+
+footer p {
+    font-size: 14px;
+    text-decoration: underline;
+}
+
+.post-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.ctrl {
+    margin-bottom: 1rem;
+}
+.ctrl a {
+    text-decoration: underline;
+}
+
+.sign-icon {
+    opacity: 0.3;
+    width: 12px;
+    margin-left: 4px;
+    vertical-align: middle;
+    cursor: pointer;
+}
+.sign-icon:hover {
+    opacity: 0.9;
+}
+
+.assets strong {
+    text-decoration: underline;
+    cursor: pointer;
+}
