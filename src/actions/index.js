@@ -31,14 +31,16 @@ export const addPaper = (paper, isNew) => async (dispatch, getState) => {
       }
     })
   }
-  await uploadFile({
+  const status = await uploadFile({
     filepath: 'list',
     data: list
   })
 
-  dispatch({
-    type: INIT_LIST,
-    list
-  })
-  return 1
+  if (status) {
+    dispatch({
+      type: INIT_LIST,
+      list
+    })
+  }
+  return status
 }

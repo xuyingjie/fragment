@@ -1,7 +1,7 @@
 import crypto from './webcrypto'
 
 const bucket = 'eqldwf'
-export const site = `https://${bucket}.oss-cn-beijing.aliyuncs.com`
+export const site = 'https://eqldwf.cn'
 
 export async function fetchForm({ filepath, data }) {
   const user = JSON.parse(localStorage.user)
@@ -28,9 +28,12 @@ export async function fetchForm({ filepath, data }) {
   form.append('Signature', signature)
   form.append('file', new Blob([data]))
 
-  await fetch(site, {
+  const res = await fetch(site, {
     method: 'POST',
     body: form
   })
-  return { code: 0 }
+
+  if (res.status === 204) {
+    return res.status
+  }
 }

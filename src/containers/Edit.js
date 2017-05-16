@@ -59,7 +59,7 @@ class Edit extends React.Component {
         filepath: `assets/${id}`,
         data
       })
-      if (status.code === 0) {
+      if (status) {
         const str = `\n![${file.name},${(file.size / 1024).toFixed(2)}KB,${file.type},${id}]`
         this.text.value = this.text.value + str
       }

@@ -18,7 +18,10 @@ export async function fetchForm({ filepath, data }) {
   if (filepath.match(/list|paper/)) {
     updateHeader(url)
   }
-  return res.json()
+
+  if (res.status === 200) {
+    return res.status
+  }
 }
 
 function updateHeader(url) {
