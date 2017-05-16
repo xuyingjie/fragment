@@ -1,4 +1,4 @@
-import { getFile } from '../utils/cos'
+import { getFile } from '../utils'
 
 export const SIGN_IN = Symbol()
 export const SIGN_OUT = Symbol()

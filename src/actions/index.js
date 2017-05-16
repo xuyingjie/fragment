@@ -1,4 +1,4 @@
-import { getFile, uploadFile } from '../utils/cos'
+import { getFile, uploadFile } from '../utils'
 
 export const INIT_LIST = Symbol()
 

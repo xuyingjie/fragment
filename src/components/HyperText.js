@@ -1,6 +1,6 @@
 import React from 'react'
 import { downloadArrayBuffer } from '../utils'
-import { site } from '../utils/cos'
+import { site } from '../utils'
 
 const HyperText = ({ file }) => {
   const { name, size, type, id } = file

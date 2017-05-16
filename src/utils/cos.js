@@ -3,40 +3,33 @@ import crypto from './webcrypto'
 const bucket = 'code'
 export const site = 'https://code.eqldwf.cn'
 
-
-export async function getFile({ filepath, passwd }) {
-  const data = await fetch(`${site}/${filepath}`)
-  let buf = await data.arrayBuffer()
-  if (passwd) {
-    buf = await crypto.decrypt(passwd, buf)
-  }
-  const str = crypto.arrayBufferToStr(buf)
-  return JSON.parse(str)
-}
-
-export async function uploadFile({ filepath, data, passwd = false }) {
-  // !(data instanceof ArrayBuffer)
-  if (data.constructor !== ArrayBuffer) {
-    data = crypto.strToArrayBuffer(JSON.stringify(data))
-  }
-  if (passwd) {
-    data = await crypto.encrypt(passwd, data)
-  }
-
+export async function fetchForm({ filepath, data }) {
   let form = new FormData()
   form.append('op', 'upload')
   form.append('filecontent', new Blob([data]))
   form.append('insertOnly', 0)
-  if (filepath.match(/list|paper/)) {
-    form.append('biz_attr', 'Cache-Control:no-cache')
-  }
 
   const url = await getSignUrl(filepath)
   const res = await fetch(url, {
     method: 'POST',
     body: form
   })
+
+  if (filepath.match(/list|paper/)) {
+    updateHeader(url)
+  }
   return res.json()
+}
+
+function updateHeader(url) {
+  let form = new FormData()
+  form.append('op', 'update')
+  form.append('custom_headers', JSON.stringify({ 'Cache-Control': 'no-cache' }))
+
+  fetch(url, {
+    method: 'POST',
+    body: form
+  })
 }
 
 async function getSignUrl(filepath = '') {
@@ -52,15 +45,9 @@ async function getSignUrl(filepath = '') {
   const str = 'a=' + appid + '&k=' + sid + '&e=' + e + '&t=' + now + '&r=' + random +
     '&f=' + path + '&b=' + bucket
 
-  const sign = await crypto.b64HmacSHA1(skey, str)
+  const sign = await crypto.b64HmacSHA1(skey, str, true)
 
   const region = 'tj'
   const url = `https://${region}.file.myqcloud.com/files/v2/${appid}/${bucket}/${filepath}`
   return `${url}?sign=${encodeURIComponent(sign)}`
 }
-
-// export async function getList() {
-//   const url = await getSignUrl()
-//   const res = await fetch(`${url}&op=list&num=200&order=0`)
-//   return res.json()
-// }

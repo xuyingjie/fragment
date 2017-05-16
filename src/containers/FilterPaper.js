@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { getFile } from '../utils/cos'
+import { getFile } from '../utils'
 
 import Paper from '../components/Paper'
 import Edit from './Edit'

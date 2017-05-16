@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { addPaper } from '../actions'
 import { readAsArrayBuffer } from '../utils'
-import { uploadFile } from '../utils/cos'
+import { uploadFile } from '../utils'
 
 class Edit extends React.Component {
 

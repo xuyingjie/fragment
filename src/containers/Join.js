@@ -1,5 +1,5 @@
 import React from 'react'
-import { uploadFile } from '../utils/cos'
+import { uploadFile } from '../utils'
 
 let Join = () => {
   let name, passwd, appid, sid, skey
@@ -13,6 +13,7 @@ let Join = () => {
       skey: skey.value
     }
 
+    localStorage.user = JSON.stringify(user)
     const status = await uploadFile({
       filepath: name.value,
       data: user,
