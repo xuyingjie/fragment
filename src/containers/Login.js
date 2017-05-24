@@ -13,7 +13,7 @@ let Login = ({ dispatch }) => {
       if (status) {
         // name.value = ''
         // passwd.value = ''
-        location.href = '#/'
+        window.location.href = '#/'
       }
     }
   }

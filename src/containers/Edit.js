@@ -44,7 +44,7 @@ class Edit extends React.Component {
       }, isNew))
 
       if (status) {
-        location.href = '#/'
+        window.location.href = '#/'
       }
     }
   }
