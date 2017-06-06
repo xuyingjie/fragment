@@ -39,6 +39,7 @@ textarea {
 header {
     border-bottom: 1px solid #e8e8e8;
     height: 128px;
+    /*background-color: #294172;*/
     background-color: #14679e;
     color: #fefefe;
     overflow: hidden;

@@ -4,40 +4,21 @@ import {
   Route
 } from 'react-router-dom'
 import { connect } from 'react-redux'
-import { initList } from '../actions'
-import { SIGN_IN, logout } from '../actions/sign'
+import { SIGN_IN } from '../actions/sign'
 
-import Header from '../components/Header'
-import List from '../components/List'
+import HeaderWrapper from './HeaderWrapper'
+import ListWrapper from './ListWrapper'
 import Edit from './Edit'
 import Login from './Login'
 import Join from './Join'
 import FilterPaper from './FilterPaper'
 
-const HeaderWrapper = connect(
-  (state) => ({
-    auth: state.auth
-  }),
-  (dispatch) => ({
-    logout: () => {
-      dispatch(logout())
-    }
-  })
-)(Header)
-
-const ListWrapper = connect(
-  (state) => ({
-    auth: state.auth,
-    list: state.list,
-  })
-)(List)
-
 let Root = ({ dispatch }) => {
-  dispatch(initList())
   if (localStorage.user) {
     dispatch({ type: SIGN_IN })
   }
 
+  // https://reacttraining.com/react-router/web/api/HashRouter
   return (
     <Router>
       <div>
