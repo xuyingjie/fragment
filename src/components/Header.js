@@ -2,6 +2,7 @@ import React from 'react'
 import signOut from '../assets/sign-out.svg'
 import signIn from '../assets/sign-in.svg'
 
+
 const Header = ({ auth, logout }) => (
   <header>
     <div className="wrap">

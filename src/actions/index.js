@@ -3,7 +3,7 @@ import { getFile, uploadFile } from '../utils'
 export const INIT_LIST = Symbol()
 
 export const initList = () => async (dispatch) => {
-  const list = await getFile({ filepath: 'list' })
+  const list = await getFile({ filepath: 'list' }) || []
   dispatch({
     type: INIT_LIST,
     list

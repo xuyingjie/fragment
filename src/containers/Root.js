@@ -13,6 +13,7 @@ import Login from './Login'
 import Join from './Join'
 import FilterPaper from './FilterPaper'
 
+
 let Root = ({ dispatch }) => {
   if (localStorage.user) {
     dispatch({ type: SIGN_IN })

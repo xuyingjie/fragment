@@ -3,6 +3,7 @@ import { logout } from '../actions/sign'
 
 import Header from '../components/Header'
 
+
 const HeaderWrapper = connect(
   (state) => ({
     auth: state.auth

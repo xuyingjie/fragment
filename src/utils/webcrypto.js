@@ -56,7 +56,7 @@ async function decrypt(passwd, data) {
   }
 }
 
-async function b64HmacSHA1(key, str, fix) {
+async function b64HmacSHA1(key, str) {
   let keyBuf = new TextEncoder().encode(key)
   let buf = new TextEncoder().encode(str)
   let hmacSha1 = { name: 'hmac', hash: { name: 'sha-1' } }
@@ -64,8 +64,7 @@ async function b64HmacSHA1(key, str, fix) {
   try {
     let key = await crypto.subtle.importKey('raw', keyBuf, hmacSha1, true, ['sign', 'verify'])
     let sign = await crypto.subtle.sign(hmacSha1, key, buf)
-    let out = fix ? set(sign, buf) : sign
-    return btoa(String.fromCharCode.apply(null, new Uint8Array(out)))
+    return btoa(String.fromCharCode.apply(null, new Uint8Array(sign)))
   } catch (err) {
     return err
   }

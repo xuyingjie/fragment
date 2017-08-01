@@ -2,15 +2,16 @@ import React from 'react'
 import { uploadFile } from '../utils'
 
 let Join = () => {
-  let name, passwd, appid, sid, skey
+  let name, passwd, accessKeyId, accessKeySecret
+  // let key
 
   async function handleSubmit(e) {
     e.preventDefault()
 
     let user = {
-      appid: appid.value,
-      sid: sid.value,
-      skey: skey.value
+      // key: key.value,
+      accessKeyId: accessKeyId.value,
+      accessKeySecret: accessKeySecret.value
     }
 
     localStorage.user = JSON.stringify(user)
@@ -30,15 +31,15 @@ let Join = () => {
       <label>Password
         <input type="text" ref={node => { passwd = node }} />
       </label>
-      <label>Appid
-        <input type="text" ref={node => { appid = node }} />
+      <label>AccessKey ID
+        <input type="text" ref={node => { accessKeyId = node }} />
       </label>
-      <label>Sid
-        <input type="text" ref={node => { sid = node }} />
+      <label>AccessKey Secret
+        <input type="text" ref={node => { accessKeySecret = node }} />
       </label>
-      <label>Skey
-        <input type="text" ref={node => { skey = node }} />
-      </label>
+      {/* <label>Random 16 bytes Key
+        <input type="text" ref={node => { key = node }} placeholder="openssl rand -base64 12" />
+      </label> */}
       <input type="submit" className="button" value="注册" />
     </form>
   )

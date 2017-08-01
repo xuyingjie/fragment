@@ -1,11 +1,11 @@
 import crypto from './webcrypto'
 
-import { site, fetchForm } from './cos'
-// import { site, fetchForm } from './oss'
+import { site, fetchForm } from './oss'
 export { site }
 
 export async function getFile({ filepath, passwd }) {
   const data = await fetch(`${site}/${filepath}`)
+  if (data.status === 404) return null
   let buf = await data.arrayBuffer()
   if (passwd) {
     buf = await crypto.decrypt(passwd, buf)
