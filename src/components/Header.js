@@ -1,20 +1,32 @@
 import React from 'react'
-import signOut from '../assets/sign-out.svg'
-import signIn from '../assets/sign-in.svg'
+import { Link } from '@reach/router'
 
+function Header({ state, dispatch }) {
 
-const Header = ({ auth, logout }) => (
-  <header>
-    <div className="wrap">
-      <a className="site-title" href="#/">CODE</a>
-      {
-        auth ?
-          <span onClick={logout}><img className="sign-icon" alt="注销" src={signOut} /></span>
-          :
-          <a href="#/login"><img className="sign-icon" alt="登录" src={signIn} /></a>
-      }
-    </div>
-  </header>
-)
+  function logout() {
+    localStorage.clear()
+    dispatch({ type: 'SIGN_OUT' })
+  }
+
+  return (
+    <header className="site-header">
+      <div className="wrapper">
+        <Link className="site-title" to="/">Code</Link>
+
+        <nav className="site-nav">
+          {
+            state.auth ?
+              <div>
+                <Link className="page-link" to="/add">新建</Link>
+                <Link className="page-link" to="#" onClick={logout}>注销</Link>
+              </div>
+              :
+              <Link className="page-link" to="/login">登录</Link>
+          }
+        </nav>
+      </div>
+    </header>
+  )
+}
 
 export default Header

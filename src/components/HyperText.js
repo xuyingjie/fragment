@@ -1,26 +1,37 @@
-import React from 'react'
-import { downloadArrayBuffer } from '../utils'
-import { site } from '../utils'
+import React, { useState, useEffect } from 'react'
+import { readAsBlobURL, download } from '../utils'
+import { CDN_DOMAIN } from '../utils/oss'
 
-const HyperText = ({ file }) => {
+function HyperText({ file }) {
   const { name, size, type, id } = file
-  const isImg = type.match(/jpeg|icon|png|gif|svg/)
+  const url = `${CDN_DOMAIN}/assets/${id}`
+  const [blobURL, setBlobURL] = useState('')
+  const [progressNode, setProgressNode] = useState(null)
 
-  async function download() {
-    const res = await fetch(`${site}/assets/${id}`)
-    const data = await res.arrayBuffer()
-    downloadArrayBuffer({ name, type, data })
-  }
+  useEffect(() => {
+    async function handleDate() {
+      // 设置正确的type信息
+      setBlobURL(await readAsBlobURL({ url, type }))
+    }
+    if (type.match(/image/)) {
+      handleDate()
+    }
+  }, [url, type])
 
-  if (isImg) {
-    return <img className="thumbnail" src={`${site}/assets/${id}`} alt={name} />
-  } else {
-    return (
-      <p className="assets">
-        <strong onClick={download}>{`${name} • ${size}`}</strong>
-      </p>
-    )
+  if (type.match(/image/)) {
+    return blobURL && <img src={blobURL} alt={name} />
   }
+  if (type.match(/video/)) {
+    return <video src={url} controls preload="none" />
+  }
+  return (
+    <p>
+      <span className="assets">
+        <strong onClick={() => download({ url, name, type, progressNode })}>{`${name} • ${size}`}</strong>
+        <i className="progress" ref={setProgressNode}></i>
+      </span>
+    </p>
+  )
 }
 
 export default HyperText
