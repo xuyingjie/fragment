@@ -33,7 +33,7 @@ function App() {
             <Home default path="/" state={state} />
             <Edit path="/add" state={state} dispatch={dispatch} />
             <Edit path="/edit/:id" state={state} dispatch={dispatch} />
-            <Paper path="/paper/:id" state={state} />
+            <Paper path="/article/:id" state={state} />
             <Login path="/login" dispatch={dispatch} />
             <Join path="/join" />
           </Router>

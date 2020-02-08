@@ -10,7 +10,7 @@ function Home({ state }) {
         <li key={item.id}>
           <span className="post-meta">{formatTime(item.last)}</span>
           <h3>
-            <Link className="post-link" to={`/paper/${item.id}`}>{item.title}</Link>
+            <Link className="post-link" to={`/article/${item.id}`}>{item.title}</Link>
           </h3>
         </li>
       ))}
