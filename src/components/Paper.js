@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from 'react'
-import { Link } from '@reach/router'
-import marked from 'marked'
+import React, { useMemo } from 'react'
 import { usePaper } from '../reducer'
+
+import { Link } from '@reach/router'
 import HyperText from './HyperText'
+
+import marked from 'marked'
 import { formatTime } from '../utils/date'
+import { convertLatex } from '../utils/katex'
 
 function Paper({ state, id }) {
-  const { title, text, last = 0 } = usePaper(id)
-  const [content, setContent] = useState([])
+  const { title = '', text = '', last = 0 } = usePaper(id)
 
-  useEffect(() => {
+  const content = useMemo(() => {
     function convertText(text) {
+      text = convertLatex(text)
       const arr = []
       const parts = text.split(/(!\[.*?,.*?,.*?,.*?\])/)
       parts.forEach((part, i) => {
@@ -32,7 +35,7 @@ function Paper({ state, id }) {
       })
       return arr
     }
-    text && setContent(convertText(text))
+    return convertText(text)
   }, [text])
 
   return (

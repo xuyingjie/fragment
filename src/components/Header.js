@@ -16,10 +16,10 @@ function Header({ state, dispatch }) {
         <nav className="site-nav">
           {
             state.auth ?
-              <div>
+              <>
                 <Link className="page-link" to="/add">新建</Link>
                 <Link className="page-link" to="#" onClick={logout}>注销</Link>
-              </div>
+              </>
               :
               <Link className="page-link" to="/login">登录</Link>
           }

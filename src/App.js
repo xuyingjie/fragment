@@ -25,7 +25,7 @@ function App() {
   return (
     // 或者使用Context传递数据
     // <Context.Provider value={{ state, dispatch }}>
-    <div>
+    <React.Fragment>
       <Header state={state} dispatch={dispatch} />
       <main className="page-content">
         <div className="wrapper">
@@ -39,7 +39,7 @@ function App() {
           </Router>
         </div>
       </main>
-    </div>
+    </React.Fragment>
   )
 }
 
