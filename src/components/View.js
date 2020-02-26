@@ -1,21 +1,21 @@
 import React, { useMemo } from 'react'
-import { usePaper } from '../reducer'
-
-import { Link } from '@reach/router'
+import { Link, useParams } from 'react-router-dom'
+import { usePost } from '../reducer'
 import HyperText from './HyperText'
 
 import marked from 'marked'
 import { formatTime } from '../utils/date'
-import { convertLatex } from '../utils/katex'
+// import { convertLatex } from '../utils/katex'
 
-function Paper({ state, id }) {
-  const { title = '', text = '', last = 0 } = usePaper(id)
+function View() {
+  const { id } = useParams()
+  const { title = '', text = '', last = 0 } = usePost(id)
 
   const content = useMemo(() => {
     function convertText(text) {
-      text = convertLatex(text)
+      // text = convertLatex(text)
       const arr = []
-      const parts = text.split(/(!\[.*?,.*?,.*?,.*?\])/)
+      const parts = text.split(/(!\[.*?,.*?,.*?\])/)
       parts.forEach((part, i) => {
         if (i % 2 === 0) {
           if (part !== '\n') {
@@ -23,14 +23,8 @@ function Paper({ state, id }) {
             arr.push(<div key={i} dangerouslySetInnerHTML={{ __html: rawMarkup }}></div>)
           }
         } else {
-          const m = part.match(/!\[(.*?),(.*?),(.*?),(.*?)\]/)
-          const file = {
-            name: m[1],
-            size: m[2],
-            type: m[3],
-            id: m[4],
-          }
-          arr.push(<HyperText key={i} file={file} />)
+          const m = part.match(/!\[(.*?,.*?,.*?)\]/)
+          arr.push(<HyperText key={i} info={m[1]} />)
         }
       })
       return arr
@@ -44,7 +38,7 @@ function Paper({ state, id }) {
         <h1 className="post-title">{title}&nbsp;</h1>
         <p className="post-meta">
           <time>{formatTime(last)}</time>
-          {state.auth && <Link to={`/edit/${id}`}>编辑</Link>}
+          <Link to={`/edit/${id}`}>编辑</Link>
         </p>
       </header>
 
@@ -55,4 +49,4 @@ function Paper({ state, id }) {
   )
 }
 
-export default Paper
+export default View

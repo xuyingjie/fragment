@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react'
-import { usePaper } from '../reducer'
+import { useParams, useNavigate } from 'react-router-dom'
+import { usePost } from '../reducer'
 
-import { readAsArrayBuffer } from '../utils'
-import { uploadFile } from '../utils'
+import { createId, put, postsDir, attachmentsDir } from '../utils'
+import { sha } from 'pessoa'
 
-function Edit(props) {
+function Edit() {
   // const { state, dispatch } = useContext(Context)
-  const { state, dispatch } = props
+  const { id } = useParams()
+  const navigate = useNavigate()
+
   const [titleNode, setTitleNode] = useState(null)
   const [textNode, setTextNode] = useState(null)
   const [progressNode, setProgressNode] = useState(null)
 
-  const paper = usePaper(props.id)
+  const paper = usePost(id)
   useEffect(() => {
-    if (paper.id) {
+    if (textNode && paper.text !== undefined) {
       titleNode.value = paper.title
       textNode.value = paper.text
     }
@@ -22,64 +25,36 @@ function Edit(props) {
   async function handleSave(e) {
     e.preventDefault()
 
-    if (titleNode.value) {
-      await addPaper({
-        id: paper.id || Date.now(),
-        title: titleNode.value,
+    const theId = id || await createId(`${Date.now()}${titleNode.value}`)
+    const status = await put({
+      key: `${postsDir}/${theId}`,
+      data: {
         text: textNode.value,
-        last: Date.now()
-      })
-    }
-  }
-
-  async function addPaper(paper) {
-    await uploadFile({
-      key: `paper/${paper.id}`,
-      data: paper
-    })
-
-    let list = state.list
-    const { id, title, last } = paper
-
-    if (!props.id) {
-      list = [{ id, title, last }, ...list]
-    } else {
-      list = list.map(item => {
-        if (item.id === id) {
-          return { id, title, last }
-        } else {
-          return item
-        }
-      })
-    }
-    const status = await uploadFile({
-      key: 'list',
-      data: list
+        last: Date.now(),
+      }
     })
 
     if (status) {
-      dispatch({
-        type: 'INIT_LIST',
-        list
-      })
-      window.location.href = '/'
+      navigate(`/${theId}`)
     }
   }
 
   function handleFileChange(e) {
     const files = e.target.files
-    const readAndUpload = async (file, index) => {
-      const id = Date.now() + index
+    const readAndUpload = async (file) => {
+      const info = `${file.name.trim()},${(file.size / 1024).toFixed(2)}KB,${file.type}`
+      const id = await sha(info)
       const data = await readAsArrayBuffer(file)
 
-      const status = await uploadFile({
-        key: `assets/${id}`,
+      const status = await put({
+        key: `${attachmentsDir}/${id}`,
         data,
-        progressNode
+        onprogress: (e) => {
+          if (e.lengthComputable) progressNode.style.width = (e.loaded === e.total) ? 0 : e.loaded / e.total * 100 + '%'
+        }
       })
       if (status) {
-        const str = `\n![${file.name},${(file.size / 1024).toFixed(2)}KB,${file.type},${id}]`
-        textNode.value += str
+        textNode.value += `\n![${info}]`
       }
     }
     if (files.length) {
@@ -89,7 +64,7 @@ function Edit(props) {
 
   return (
     <form onSubmit={handleSave}>
-      <input type="text" ref={setTitleNode} />
+      <input type="text" ref={setTitleNode} readOnly={Boolean(id)} />
       <textarea ref={setTextNode} />
       <label className="upload">
         <input type="file" multiple onChange={handleFileChange} />
@@ -98,6 +73,16 @@ function Edit(props) {
       <input type="submit" className="button" value="保存" />
     </form>
   )
+}
+
+function readAsArrayBuffer(file) {
+  return new Promise((resolve) => {
+    const reader = new FileReader()
+    reader.onload = () => {
+      resolve(reader.result)
+    }
+    reader.readAsArrayBuffer(file)
+  })
 }
 
 export default Edit

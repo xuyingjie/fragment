@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
-import { uploadFile } from '../utils'
+import { put } from '../utils'
 
 function Join() {
   const [nameNode, setNameNode] = useState(null)
   const [passwdNode, setPasswdNode] = useState(null)
+  const [keyNode, setKeyNode] = useState(null)
   const [accessKeyIdNode, setAccessKeyIdNode] = useState(null)
   const [accessKeySecretNode, setAccessKeySecretNode] = useState(null)
 
@@ -11,12 +12,13 @@ function Join() {
     e.preventDefault()
 
     const user = {
+      key: keyNode.value,
       accessKeyId: accessKeyIdNode.value,
       accessKeySecret: accessKeySecretNode.value
     }
 
     localStorage.user = JSON.stringify(user)
-    const status = await uploadFile({
+    const status = await put({
       key: nameNode.value,
       data: user,
       passwd: passwdNode.value
@@ -31,6 +33,9 @@ function Join() {
       </label>
       <label>Password
         <input type="text" ref={setPasswdNode} />
+      </label>
+      <label>Key
+        <input type="text" ref={setKeyNode} />
       </label>
       <label>AccessKeyId
         <input type="text" ref={setAccessKeyIdNode} />

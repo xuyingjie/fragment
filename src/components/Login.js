@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { readAsJson } from '../utils'
+import { useNavigate } from 'react-router-dom'
+import { get } from '../utils'
 
 function Login({ dispatch }) {
+  const navigate = useNavigate()
   const [nameNode, setNameNode] = useState(null)
   const [passwdNode, setPasswdNode] = useState(null)
 
@@ -9,15 +11,15 @@ function Login({ dispatch }) {
     e.preventDefault()
 
     if (nameNode.value && passwdNode.value) {
-      const user = await readAsJson({
+      const user = await get({
         key: nameNode.value,
         passwd: passwdNode.value
       })
       if (user) {
         localStorage.user = JSON.stringify(user)
-        dispatch({ type: 'SIGN_IN' })
         nameNode.value = ''
-        window.location.href = '/'
+        dispatch({ type: 'SIGN_IN' })
+        navigate('/')
       }
     }
   }

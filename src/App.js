@@ -1,45 +1,45 @@
-import React, { useReducer, useEffect } from 'react'
-import { Router } from '@reach/router'
+import React, { useReducer } from 'react'
+import {
+  // BrowserRouter as Router,
+  HashRouter as Router,
+  Routes,
+  Route
+} from 'react-router-dom'
 
 import { reducer, initialState } from './reducer'
-import { readAsJson } from './utils'
 
 import Header from './components/Header'
 import Home from './components/Home'
 import Edit from './components/Edit'
-import Paper from './components/Paper'
+import View from './components/View'
 import Login from './components/Login'
 import Join from './components/Join'
 
 function App() {
   const [state, dispatch] = useReducer(reducer, initialState)
 
-  useEffect(() => {
-    async function fetchData() {
-      const list = await readAsJson({ key: 'list' }) || []
-      dispatch({ type: 'INIT_LIST', list })
-    }
-    fetchData()
-  }, [dispatch])
-
   return (
     // 或者使用Context传递数据
     // <Context.Provider value={{ state, dispatch }}>
-    <React.Fragment>
+    <Router>
       <Header state={state} dispatch={dispatch} />
       <main className="page-content">
         <div className="wrapper">
-          <Router>
-            <Home default path="/" state={state} />
-            <Edit path="/add" state={state} dispatch={dispatch} />
-            <Edit path="/edit/:id" state={state} dispatch={dispatch} />
-            <Paper path="/article/:id" state={state} />
-            <Login path="/login" dispatch={dispatch} />
-            <Join path="/join" />
-          </Router>
+          <Routes>
+            {state.auth &&
+              <>
+                <Route path="/" element={<Home />} />
+                <Route path="/add" element={<Edit />} />
+                <Route path="/edit/:id" element={<Edit />} />
+                <Route path="/:id" element={<View />} />
+              </>
+            }
+            <Route path="/login" element={<Login dispatch={dispatch} />} />
+            <Route path="/join" element={<Join />} />
+          </Routes>
         </div>
       </main>
-    </React.Fragment>
+    </Router>
   )
 }
 

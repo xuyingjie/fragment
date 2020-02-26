@@ -2,11 +2,10 @@
  * hook 用于解决函数组件里的 状态 和 生命周期
  */
 import { useState, useEffect } from 'react'
-import { readAsJson } from './utils'
+import { get, postsDir, parseId } from './utils'
 
 export const initialState = {
   auth: Boolean(localStorage.user),
-  list: []
 }
 
 export function reducer(state, action) {
@@ -15,24 +14,25 @@ export function reducer(state, action) {
       return { ...state, auth: true }
     case 'SIGN_OUT':
       return { ...state, auth: false }
-    case 'INIT_LIST':
-      return { ...state, list: action.list }
     default:
       throw new Error()
   }
 }
 
 // 自定义 hooks
-export function usePaper(id) {
-  const [paper, setPaper] = useState({})
+export function usePost(id) {
+  const [post, setPost] = useState({})
 
   useEffect(() => {
     async function fetchData(id) {
-      const paper = await readAsJson({ key: `paper/${id}` })
-      setPaper(paper)
+      const post = await get({ key: `${postsDir}/${id}` })
+      if (post) {
+        post.title = (await parseId(id)).slice(13)
+        setPost(post)
+      }
     }
     id && fetchData(id)
   }, [id])
 
-  return paper
+  return post
 }
