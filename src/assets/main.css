@@ -57,7 +57,7 @@ ul {
   padding-left: 1.2em;
 }
 strong {
-  font-weight: 600;
+  font-weight: 500;
 }
 
 h1,
@@ -85,7 +85,7 @@ h3 {
 code,
 kbd {
   font-family: Consolas, "Source Code Pro", "Liberation Mono", Courier,
-    monospace;
+    "Microsoft YaHei", monospace;
 }
 p,
 ul,
@@ -121,9 +121,10 @@ mark {
 
 img,
 video {
+  display: block;
   max-width: 100%;
-  vertical-align: middle;
-  margin: 16px 0;
+  /* vertical-align: middle; */
+  /* margin: 16px 0; */
 }
 
 pre {
@@ -180,6 +181,8 @@ p code {
 .site-title {
   font-size: 1.625rem;
   font-weight: 300;
+  font-family: Consolas, "Source Code Pro", "Liberation Mono", Courier,
+    "Microsoft YaHei", monospace;
   letter-spacing: -1px;
   margin-bottom: 0;
   float: left;
@@ -215,48 +218,13 @@ p code {
 .site-nav .page-link:not(:last-child) {
   margin-right: 20px;
 }
+.site-nav input[type="file"] {
+  display: none;
+}
 
-.page-content {
+main {
   padding: 30px 0;
   flex: 1 0 auto;
-}
-.post-list-heading {
-  font-size: 1.75rem;
-}
-.post-list {
-  margin: 0;
-  padding: 0;
-  list-style: none;
-  line-height: 1.5;
-}
-.post-list > li {
-  margin-bottom: 30px;
-}
-.post-list h3 {
-  margin-top: 0;
-  margin-bottom: 15px;
-  line-height: 1.5;
-}
-.post-list a {
-  font-weight: 400;
-}
-.post-meta {
-  font-size: 14px;
-  color: #828282;
-}
-.post-link {
-  display: block;
-  font-size: 1.5rem;
-}
-.post-header {
-  margin-bottom: 30px;
-}
-.post-title {
-  font-size: 2.625rem;
-  line-height: 1.15;
-  margin-top: 0;
-  margin-bottom: 15px;
-  font-weight: 400;
 }
 .post-content {
   margin-bottom: 100px;
@@ -357,6 +325,9 @@ textarea[readonly] {
 }
 
 label {
+  position: relative;
+}
+main label {
   display: block;
   margin: 0;
   font-size: 0.875rem;
@@ -369,7 +340,7 @@ label {
 .upload {
   position: relative;
 }
-.assets strong {
+.pointer {
   text-decoration: underline;
   cursor: pointer;
 }
@@ -387,7 +358,12 @@ label {
   height: 100%;
   background: rgba(0, 0, 0, 0.1);
 }
-.post-content .katex-box {
-  text-align: center;
-  margin: 32px 0;
+
+.log textarea {
+  height: 140px;
+  resize: none;
+}
+.log sub > span {
+  cursor: pointer;
+  user-select: none;
 }

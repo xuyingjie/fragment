@@ -1,37 +1,42 @@
-import React from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { del, postsDir } from '../utils'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { upload } from '../utils/file'
 
-function Header({ state, dispatch }) {
+function Header({ auth, setAuth, setFefresh, preview, setPreview }) {
   const navigate = useNavigate()
-  const { pathname } = useLocation()
-  const isEdit = pathname.match('/edit/')
+  const [progressNode, setProgressNode] = useState(null)
 
-  async function delCurrentPost() {
-    const id = pathname.split('/').pop()
-    const status = await del(`${postsDir}/${id}`)
-    if (status) {
-      navigate('/')
-    }
+  async function handleFileChange(e) {
+    const files = e.target.files
+    await upload({
+      files,
+      onprogress: (e) => {
+        if (e.lengthComputable) progressNode.style.width = (e.loaded === e.total) ? 0 : e.loaded / e.total * 100 + '%'
+      }
+    })
+    setFefresh(Symbol())
   }
 
   function logout() {
     localStorage.clear()
-    dispatch({ type: 'SIGN_OUT' })
+    setAuth(false)
     navigate('/login')
   }
 
   return (
     <header className="site-header">
       <div className="wrapper">
-        <Link className="site-title" to="/">Cache</Link>
+        <Link className="site-title" to="/">Log</Link>
 
         <nav className="site-nav">
-          {isEdit && <button className="page-link" onClick={delCurrentPost}>删除</button>}
           {
-            state.auth ?
+            auth ?
               <>
-                <Link className="page-link" to="/add">新建</Link>
+                <label className="page-link">上传文件
+                  <input type="file" multiple onChange={handleFileChange} />
+                  <i className="progress" ref={setProgressNode}></i>
+                </label>
+                <button className="page-link" onClick={() => setPreview(!preview)}>预览</button>
                 <button className="page-link" onClick={logout}>注销</button>
               </>
               :
