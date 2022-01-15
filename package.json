@@ -9,7 +9,7 @@
   "author": "xuyingjie@outlook.com",
   "license": "MIT",
   "dependencies": {
-    "marked": "^0.8.0",
+    "marked": "^4.0.10",
     "normalize.css": "^8.0.1",
     "pessoa": "^1.0.2",
     "react": "^16.12.0",
